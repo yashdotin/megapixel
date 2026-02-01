@@ -27,3 +27,6 @@ def edit_profile(request):
         form.save()
 
     return render(request, 'profile_edit.html', {'form': form})
+def profile(request):
+    profile = request.user.profile
+    return render(request, "accounts/profile.html", {"profile": profile})
