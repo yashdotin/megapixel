@@ -27,6 +27,9 @@ def edit_profile(request):
         form.save()
 
     return render(request, 'profile_edit.html', {'form': form})
+from django.contrib.auth.decorators import login_required
+
+@login_required
 def profile(request):
-    profile = request.user.profile
-    return render(request, "accounts/profile.html", {"profile": profile})
+    # Ensure user.profile exists (should be handled by signals)
+    return render(request, "profile.html")

@@ -27,9 +27,6 @@ def project_detail(request, pk):
     project = get_object_or_404(Project, pk=pk)
     return render(request, 'project_detail.html', {'project': project})
 
-@login_required
-def profile(request):
-    return render(request, 'profile.html')
 
 def contact(request):
     form = ContactForm(request.POST or None)
