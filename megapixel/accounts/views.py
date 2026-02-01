@@ -7,8 +7,10 @@ from .models import Profile
 def signup(request):
     form = UserCreationForm(request.POST or None)
     if form.is_valid():
-        form.save()
-        return redirect('login')
+        user = form.save()
+        from django.contrib.auth import login
+        login(request, user)
+        return redirect('profile')
     return render(request, 'auth/signup.html', {'form': form})
 
 @login_required

@@ -26,6 +26,9 @@ SECRET_KEY = 'django-insecure-rx3ro5&2dibjo+9mfry8_+0@-!w0xr9=nh(c3w3h2k3m+&ajlm
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = [
+    "https://megapixel-creations.onrender.com"
+]
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
