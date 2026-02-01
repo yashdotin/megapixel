@@ -37,10 +37,10 @@ def profile(request):
     return render(request, "profile.html")
 
 
-# @login_required
-# def make_me_admin(request):
-#     user = request.user
-#     user.is_staff = True
-#     user.is_superuser = True
-#     user.save()
-#     return HttpResponse("You are now superuser. REMOVE THIS VIEW.")
+@login_required
+def make_me_admin(request):
+    user = request.user
+    user.is_staff = True
+    user.is_superuser = True
+    user.save()
+    return HttpResponse("You are now superuser. REMOVE THIS VIEW.")

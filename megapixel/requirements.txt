@@ -1,7 +1,13 @@
 asgiref==3.11.0
 Django==6.0.1
 pillow==12.1.0
+psycopg==3.3.2
+psycopg-binary==3.3.2
 sqlparse==0.5.5
 tzdata==2025.3
-whitenoise==6.5.0
+whitenoise==6.11.0
+dj-database-url==1.2.0
+python-dotenv==1.0.0
 gunicorn==20.1.0
+dj-database-url
+psycopg2-binary
