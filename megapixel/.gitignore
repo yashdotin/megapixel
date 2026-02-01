@@ -13,8 +13,7 @@ env/
 db.sqlite3
 *.log
 
-# Media uploads
-media/
+
 
 # Environment
 .env

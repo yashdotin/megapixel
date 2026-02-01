@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-rx3ro5&2dibjo+9mfry8_+0@-!w0xr9=nh(c3w3h2k3m+&ajlm
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [ "megapixel-creations.onrender.com",
+    "localhost",
+    "127.0.0.1",]
 CSRF_TRUSTED_ORIGINS = [
     "https://megapixel-creations.onrender.com"
 ]
