@@ -11,6 +11,19 @@
       Create your account to manage your profile
     </p>
 
+    {% if form.errors or form.non_field_errors %}
+      <div class="mb-4 p-3 rounded bg-red-100 text-red-700 text-center">
+        {% for error in form.non_field_errors %}
+          {{ error }}<br>
+        {% endfor %}
+        {% for field in form %}
+          {% for error in field.errors %}
+            {{ error }}<br>
+          {% endfor %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
     <form method="post" class="space-y-4">
       {% csrf_token %}
 

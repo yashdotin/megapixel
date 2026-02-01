@@ -14,6 +14,3 @@ class Profile(models.Model):
         return self.user.username
 
 
-@receiver(post_save, sender=User)
-def create_or_update_profile(sender, instance, **kwargs):
-    Profile.objects.get_or_create(user=instance)

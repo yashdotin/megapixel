@@ -25,6 +25,7 @@ def edit_profile(request):
 
     if form.is_valid():
         form.save()
+        return redirect('profile')
 
     return render(request, 'profile_edit.html', {'form': form})
 from django.contrib.auth.decorators import login_required
