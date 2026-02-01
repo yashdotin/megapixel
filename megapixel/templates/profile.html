@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section class="max-w-4xl mx-auto px-4 py-16">
+
+  <div class="bg-white/80 dark:bg-[#141414]/80 backdrop-blur rounded-2xl p-8 shadow-lg">
+
+    <div class="flex flex-col items-center text-center">
+      <img src="{{ user.profile.avatar.url|default:'/static/camera.png' }}"
+           class="w-28 h-28 rounded-full object-cover mb-4">
+
+      <h2 class="text-2xl font-semibold">{{ user.username }}</h2>
+      <p class="text-gray-500">{{ user.email }}</p>
+    </div>
+
+    <div class="mt-8 grid gap-4 text-sm">
+      <p><strong>Phone:</strong> {{ user.profile.phone|default:"—" }}</p>
+      <p><strong>Address:</strong> {{ user.profile.address|default:"—" }}</p>
+    </div>
+
+    <a href="/accounts/profile/edit/"
+       class="inline-block mt-6 px-6 py-2 rounded-lg bg-black text-white">
+      Edit Profile
+    </a>
+
+  </div>
+
+</section>
+
+{% endblock %}

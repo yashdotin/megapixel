@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="/static/camera.png">
+    <title>MegaPixel Creations</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="MegaPixel Creations – Professional photography studio capturing timeless moments.">
+
+    {% block head %}{% endblock %}
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' }
+        if (localStorage.theme === 'dark') {
+            document.documentElement.classList.add('dark')
+        }
+    </script>
+
+    <style>
+      @keyframes fade-in {
+        from { opacity:0; transform: translateY(10px); }
+        to { opacity:1; transform: translateY(0); }
+      }
+      .animate-fade-in { animation: fade-in .4s ease-out; }
+       .zoom-in {
+    transform: scale(1);
+    opacity: 1;
+  }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col bg-white dark:bg-[#0b0b0b] text-gray-900 dark:text-gray-100">
+
+<!-- Global camera watermark -->
+<div class="fixed inset-0 bg-[url('/static/camera.png')] bg-center bg-no-repeat opacity-[0.03] pointer-events-none"></div>
+
+<nav class="fixed top-0 w-full z-50 bg-white/90 dark:bg-[#0b0b0b]/90 backdrop-blur border-b border-gray-100 dark:border-gray-800">
+  <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+
+    <!-- Left -->
+    <a href="/" class="flex items-center gap-3">
+      <img src="/static/camera.png" class="w-9 h-9 rounded-full">
+      <span class="font-semibold text-[17px]">MegaPixel Creations</span>
+    </a>
+
+    <!-- Center (desktop only) -->
+    <div class="hidden md:flex items-center gap-8 text-sm text-gray-600 dark:text-gray-400">
+      <a href="/about/" class="hover:text-black dark:hover:text-white">About</a>
+      <a href="/projects/" class="hover:text-black dark:hover:text-white">Projects</a>
+      <a href="/contact/" class="hover:text-black dark:hover:text-white">Contact</a>
+    </div>
+
+    <!-- Right -->
+    <div class="flex items-center gap-3">
+
+      <!-- Mobile menu button -->
+      <button id="mobileMenuBtn"
+              class="md:hidden w-9 h-9 rounded-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center">
+        ☰
+      </button>
+
+      <!-- Theme toggle -->
+      <button onclick="toggleTheme()"
+              class="w-9 h-9 rounded-lg border border-gray-200 dark:border-gray-700">
+        🌙
+      </button>
+
+      <!-- Profile Menu -->
+      <div class="relative">
+        <button id="profileBtn"
+                class="w-9 h-9 rounded-full border border-gray-300 dark:border-gray-700 overflow-hidden">
+          <img src="/static/camera.png" class="w-full h-full object-cover">
+        </button>
+
+        <div id="profileMenu"
+             class="hidden absolute right-0 mt-2 w-44 rounded-xl shadow-lg
+                    bg-white dark:bg-[#141414] border border-gray-200 dark:border-gray-700 overflow-hidden z-50">
+
+          {% if user.is_authenticated %}
+            <a href="/profile/" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800">
+              Profile
+            </a>
+
+            {% if user.is_superuser %}
+            <a href="/admin/" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800">
+              Admin Dashboard
+            </a>
+            {% endif %}
+
+            <form method="post" action="/accounts/logout/">
+  {% csrf_token %}
+  <button type="submit"
+          class="w-full text-left block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-800">
+    Logout
+  </button>
+</form>
+
+          {% else %}
+            <a href="/accounts/signup/" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800">
+              Sign Up
+            </a>
+            <a href="/accounts/login/" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800">
+              Login
+            </a>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobileMenu"
+     class="hidden md:hidden fixed top-16 inset-x-0 z-40
+            bg-white dark:bg-[#0b0b0b] border-b border-gray-200 dark:border-gray-800">
+  <div class="flex flex-col px-6 py-4 gap-4 text-sm">
+    <a href="/about/" class="hover:text-black dark:hover:text-white">About</a>
+    <a href="/projects/" class="hover:text-black dark:hover:text-white">Projects</a>
+    <a href="/contact/" class="hover:text-black dark:hover:text-white">Contact</a>
+  </div>
+</div>
+
+<main class="pt-24 flex-grow">
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="border-t border-gray-100 dark:border-gray-800">
+  <div class="max-w-7xl mx-auto px-6 py-14 grid gap-10 md:grid-cols-3">
+
+    <div class="text-left">
+      <img src="/static/camera.png" class="w-16 h-16 rounded-full mb-4">
+      <p class="font-medium">MegaPixel Creations</p>
+      <p class="text-sm text-gray-500 dark:text-gray-400">
+        Professional Photography Studio
+      </p>
+    </div>
+
+    <div class="text-left">
+      <h4 class="font-semibold mb-3">Quick Links</h4>
+      <ul class="space-y-2 text-sm text-gray-500 dark:text-gray-400">
+        <li><a href="/about/" class="hover:text-black dark:hover:text-white">About</a></li>
+        <li><a href="/projects/" class="hover:text-black dark:hover:text-white">Projects</a></li>
+        <li><a href="/contact/" class="hover:text-black dark:hover:text-white">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="text-left">
+      <h4 class="font-semibold mb-3">Contact</h4>
+      <p class="text-sm text-gray-500 dark:text-gray-400">📞 +91 9956963676</p>
+      <p class="text-sm text-gray-500 dark:text-gray-400">✉️ email@example.com</p>
+      <div class="flex gap-4 justify-start mt-4">
+
+  <!-- Instagram -->
+  <a href="https://www.instagram.com/megapixel_creations/" target="_blank" aria-label="Instagram"
+     class="w-9 h-9 flex items-center justify-center rounded-full hover:scale-110 transition">
+    <img src="https://cdn.simpleicons.org/instagram/E4405F" class="w-5 h-5">
+  </a>
+
+  <!-- Facebook -->
+  <a href="https://www.facebook.com/profile.php?id=61558951875052" target="_blank" aria-label="Facebook"
+     class="w-9 h-9 flex items-center justify-center rounded-full hover:scale-110 transition">
+    <img src="https://cdn.simpleicons.org/facebook/1877F2" class="w-5 h-5">
+  </a>
+
+  <!-- YouTube -->
+  <a href="https://www.youtube.com/@Megapixelcreation" target="_blank" aria-label="YouTube"
+     class="w-9 h-9 flex items-center justify-center rounded-full hover:scale-110 transition">
+    <img src="https://cdn.simpleicons.org/youtube/FF0000" class="w-5 h-5">
+  </a>
+
+</div>
+
+    </div>
+
+  </div>
+
+  <div class="text-center text-sm text-gray-500 dark:text-gray-400 py-6 border-t border-gray-100 dark:border-gray-800">
+       Made with ❤️ by Yash · © {% now "Y" %} MegaPixel Creations. All rights reserved.
+  </div>
+</footer>
+
+<script src="/static/js/theme.js"></script>
+
+<!-- Profile dropdown -->
+<script>
+  const profileBtn = document.getElementById('profileBtn');
+  const profileMenu = document.getElementById('profileMenu');
+
+  if (profileBtn && profileMenu) {
+    profileBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      profileMenu.classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', () => {
+      profileMenu.classList.add('hidden');
+    });
+  }
+</script>
+
+<!-- Mobile menu -->
+<script>
+  const mobileBtn = document.getElementById('mobileMenuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  if (mobileBtn && mobileMenu) {
+    mobileBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+    });
+  }
+</script>
+
+<!-- Gallery lightbox -->
+<script>
+  document.querySelectorAll('.lightbox-img').forEach(img => {
+    img.addEventListener('click', () => {
+      const overlay = document.createElement('div');
+      overlay.className = 'fixed inset-0 bg-black/90 flex items-center justify-center z-50';
+      overlay.innerHTML = `
+        <img src="${img.src}" class="max-h-[90vh] max-w-[90vw] rounded-xl">
+      `;
+      overlay.onclick = () => overlay.remove();
+      document.body.appendChild(overlay);
+    });
+  });
+</script>
+<script>
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate-fade-in');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.animate-on-scroll').forEach(el => {
+    observer.observe(el);
+  });
+</script>
+
+
+</body>
+</html>

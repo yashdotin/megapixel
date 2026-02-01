@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="fixed inset-0 bg-[url('/static/camera.png')] bg-center bg-no-repeat opacity-5 pointer-events-none"></div>
+
+<section class="max-w-md mx-auto px-4 py-20 relative">
+  <div class="bg-white/80 dark:bg-[#141414]/80 backdrop-blur rounded-2xl p-8 shadow-xl animate-fade-in">
+
+    <h1 class="text-2xl font-semibold mb-2 text-center">Welcome Back 📷</h1>
+    <p class="text-sm text-gray-500 dark:text-gray-400 text-center mb-6">
+      Login to access your profile
+    </p>
+
+    <form method="post" class="space-y-4">
+      {% csrf_token %}
+
+      <div>
+        <label class="text-sm">Username</label>
+        {{ form.username }}
+      </div>
+
+      <div>
+        <label class="text-sm">Password</label>
+        {{ form.password }}
+      </div>
+
+      <button class="w-full py-2 mt-4 rounded-lg bg-black text-white hover:opacity-90 transition">
+        Login
+      </button>
+    </form>
+
+  </div>
+</section>
+
+{% endblock %}

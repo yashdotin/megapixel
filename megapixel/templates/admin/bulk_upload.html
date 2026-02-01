@@ -1,0 +1,14 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+
+<h1>Bulk Upload Images</h1>
+<p><strong>Project:</strong> {{ project.title }}</p>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.images }}
+  <br><br>
+  <button type="submit" class="default">Upload Images</button>
+</form>
+
+{% endblock %}

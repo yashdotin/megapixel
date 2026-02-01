@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section class="px-4 md:px-10 py-14 max-w-7xl mx-auto">
+
+  <!-- Heading -->
+  <div class="mb-12 max-w-3xl">
+    <h1 class="text-4xl font-semibold mb-4">Our Work</h1>
+    <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+      A collection of moments we’ve captured across weddings, birthdays,
+      portraits, travel and special events. Each project tells a unique story.
+    </p>
+  </div>
+
+  <!-- Category Filter -->
+  <div class="flex flex-wrap gap-3 mb-10 text-sm">
+
+    <a href="{% url 'projects' %}"
+       class="px-4 py-1.5 rounded-full border
+       {% if not request.GET.category %} bg-black text-white {% else %} border-gray-300 {% endif %}">
+      All
+    </a>
+
+    {% for key, label in project_categories %}
+    <a href="?category={{ key }}"
+       class="px-4 py-1.5 rounded-full border
+       {% if request.GET.category == key %}
+         bg-black text-white
+       {% else %}
+         border-gray-300 dark:border-gray-700
+       {% endif %}">
+      {{ label }}
+    </a>
+    {% endfor %}
+
+  </div>
+
+  <!-- Projects Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+    {% for p in projects %}
+    <a href="{% url 'project_detail' p.id %}"
+       class="group relative overflow-hidden rounded-2xl shadow-lg bg-black">
+
+      <img src="{{ p.cover.url }}"
+           loading="lazy"
+           class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110">
+
+      <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-end p-5">
+        <div>
+          <h3 class="text-lg font-semibold text-white">{{ p.title }}</h3>
+          <p class="text-sm text-gray-300">{{ p.location }}</p>
+        </div>
+      </div>
+
+    </a>
+    {% empty %}
+      <p>No projects found.</p>
+    {% endfor %}
+
+  </div>
+
+</section>
+
+{% endblock %}

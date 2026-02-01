@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section class="max-w-6xl mx-auto px-4 py-20">
+
+  <!-- ABOUT CARD -->
+  <div class="relative rounded-3xl overflow-hidden shadow-2xl">
+
+    <!-- Background -->
+    <div class="absolute inset-0 
+                bg-gradient-to-br from-gray-100 via-white to-gray-200
+                dark:from-green-900 dark:via-black dark:to-black"></div>
+
+    <!-- Content -->
+    <div class="relative z-10 grid md:grid-cols-2 gap-10 items-center p-8 md:p-12">
+
+      <!-- IMAGE SLIDER -->
+      <div class="relative">
+
+        <div class="overflow-hidden rounded-2xl cursor-pointer"
+             onclick="openLightbox(current)">
+          <img id="aboutSlide"
+               src="/static/chachu/chachu1.jpg"
+               class="w-full h-[320px] object-cover transition duration-700">
+        </div>
+
+        <!-- Slider buttons -->
+        <button onclick="prevSlide()"
+                class="absolute inset-y-0 left-2 my-auto w-10 h-10 rounded-full bg-black/50 text-white hover:bg-black">
+          ‹
+        </button>
+
+        <button onclick="nextSlide()"
+                class="absolute inset-y-0 right-2 my-auto w-10 h-10 rounded-full bg-black/50 text-white hover:bg-black">
+          ›
+        </button>
+
+        <!-- View All -->
+        <button onclick="openGrid()"
+                class="absolute bottom-4 right-4 px-4 py-2 rounded-full
+                       bg-black/70 text-white text-sm hover:bg-black transition">
+          View all
+        </button>
+
+      </div>
+
+      <!-- TEXT INFO -->
+      <div class="animate-fade-in">
+
+        <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">
+          Pramanandan Tiwari
+        </h1>
+
+        <p class="text-sm mb-4 text-gray-600 dark:text-gray-300">
+          Founder · Lead Photographer · MegaPixel Creations
+        </p>
+
+        <p class="leading-relaxed mb-6 text-gray-700 dark:text-gray-200">
+          With years of experience behind the lens, MegaPixel Creations
+          specializes in weddings, portraits, events, and storytelling photography.
+          Every frame is crafted with emotion, precision, and creativity.
+        </p>
+
+        <!-- Skills -->
+        <div class="flex flex-wrap gap-3 text-sm mb-6">
+          <span class="px-3 py-1 rounded-full bg-black/5 dark:bg-white/10">📸 Photography</span>
+          <span class="px-3 py-1 rounded-full bg-black/5 dark:bg-white/10">💍 Weddings</span>
+          <span class="px-3 py-1 rounded-full bg-black/5 dark:bg-white/10">🎉 Events</span>
+          <span class="px-3 py-1 rounded-full bg-black/5 dark:bg-white/10">🧑 Portraits</span>
+        </div>
+
+        <!-- Social -->
+        <div class="flex gap-4">
+          <a href="https://www.facebook.com/pramanandan.tiwari.9" target="_blank">
+            <img src="https://cdn.simpleicons.org/facebook/1877F2" class="w-6 h-6">
+          </a>
+          <a href="https://www.instagram.com/pramanandan_tiwari/" target="_blank">
+            <img src="https://cdn.simpleicons.org/instagram/E4405F" class="w-6 h-6">
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+<!-- LIGHTBOX -->
+<div id="lightbox"
+     class="hidden fixed inset-0 z-50 bg-black/90 flex items-center justify-center px-4">
+
+  <button onclick="closeLightbox()"
+          class="absolute top-6 right-6 text-white text-4xl">×</button>
+
+  <button onclick="prevLightbox()"
+          class="absolute left-4 text-white text-5xl">‹</button>
+
+  <img id="lightboxImg"
+       class="max-h-[90vh] max-w-[90vw] rounded-xl transition duration-300 scale-90 opacity-0">
+
+  <button onclick="nextLightbox()"
+          class="absolute right-4 text-white text-5xl">›</button>
+
+  <div id="lightboxGrid"
+       class="hidden max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-3 gap-4"></div>
+</div>
+
+<style>
+  .zoom-in {
+    transform: scale(1);
+    opacity: 1;
+  }
+</style>
+
+<script>
+  const slides = [
+    "/static/chachu/chachu1.jpg",
+    "/static/chachu/chachu2.jpg",
+    "/static/chachu/chachu3.jpg",
+    "/static/chachu/chachu4.jpg",
+    "/static/chachu/chachu5.jpg"
+  ];
+
+  let current = 0;
+  let lightboxIndex = 0;
+  let startX = 0;
+
+  const aboutImg = document.getElementById('aboutSlide');
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxGrid = document.getElementById('lightboxGrid');
+
+  function nextSlide() {
+    current = (current + 1) % slides.length;
+    aboutImg.src = slides[current];
+  }
+
+  function prevSlide() {
+    current = (current - 1 + slides.length) % slides.length;
+    aboutImg.src = slides[current];
+  }
+
+  setInterval(nextSlide, 5000);
+
+  function openLightbox(index) {
+    lightboxIndex = index;
+    lightbox.classList.remove('hidden');
+    lightboxGrid.classList.add('hidden');
+    lightboxImg.classList.remove('hidden');
+    lightboxImg.src = slides[lightboxIndex];
+    requestAnimationFrame(() => lightboxImg.classList.add('zoom-in'));
+  }
+
+  function closeLightbox() {
+    lightbox.classList.add('hidden');
+    lightboxImg.classList.remove('zoom-in');
+  }
+
+  function nextLightbox() {
+    lightboxIndex = (lightboxIndex + 1) % slides.length;
+    lightboxImg.src = slides[lightboxIndex];
+  }
+
+  function prevLightbox() {
+    lightboxIndex = (lightboxIndex - 1 + slides.length) % slides.length;
+    lightboxImg.src = slides[lightboxIndex];
+  }
+
+  function openGrid() {
+    lightbox.classList.remove('hidden');
+    lightboxImg.classList.add('hidden');
+    lightboxGrid.classList.remove('hidden');
+    lightboxGrid.innerHTML = '';
+
+    slides.forEach((src, i) => {
+      const img = document.createElement('img');
+      img.src = src;
+      img.className = 'rounded-xl cursor-pointer hover:scale-105 transition';
+      img.onclick = () => openLightbox(i);
+      lightboxGrid.appendChild(img);
+    });
+  }
+
+  lightbox.addEventListener('touchstart', e => startX = e.changedTouches[0].screenX);
+  lightbox.addEventListener('touchend', e => {
+    const diff = startX - e.changedTouches[0].screenX;
+    if (diff > 50) nextLightbox();
+    if (diff < -50) prevLightbox();
+  });
+
+  lightbox.addEventListener('click', e => {
+    if (e.target === lightbox) closeLightbox();
+  });
+</script>
+
+{% endblock %}

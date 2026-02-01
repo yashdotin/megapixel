@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<meta property="og:title" content="{{ project.title }} – MegaPixel Creations">
+<meta property="og:image" content="{{ project.cover.url }}">
+<meta property="og:type" content="website">
+{% endblock %}
+
+{% block content %}
+
+<section class="max-w-6xl mx-auto px-4 py-12">
+
+  <!-- Cover Image -->
+  <img src="{{ project.cover.url }}"
+       loading="lazy"
+       class="w-full max-h-[80vh] object-cover rounded-2xl mb-10 opacity-0 transition-opacity duration-700"
+       onload="this.classList.remove('opacity-0')">
+
+  <!-- Project Info -->
+ <div class="mb-14 max-w-3xl animate-on-scroll">
+
+  <!-- Category badge -->
+{% if project.category %}
+<span class="inline-block mb-4 px-3 py-1 rounded-full text-xs font-medium
+
+{% if project.category == 'wedding' %}
+  bg-pink-100 text-pink-700 dark:bg-pink-900/40 dark:text-pink-300
+{% elif project.category == 'birthday' %}
+  bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300
+{% elif project.category == 'prewedding' %}
+  bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300
+{% elif project.category == 'engagement' %}
+  bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300
+{% elif project.category == 'portrait' %}
+  bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300
+{% elif project.category == 'travel' %}
+  bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300
+{% elif project.category == 'corporate' %}
+  bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-300
+{% elif project.category == 'concert' %}
+  bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300
+{% elif project.category == 'fashion' %}
+  bg-fuchsia-100 text-fuchsia-700 dark:bg-fuchsia-900/40 dark:text-fuchsia-300
+{% elif project.category == 'product' %}
+  bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300
+{% else %}
+  bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300
+{% endif %}
+
+">
+  {{ project.get_category_display }}
+</span>
+{% endif %}
+
+
+  <!-- Title -->
+  <h1 class="text-3xl md:text-4xl font-semibold tracking-tight mb-4">
+    {{ project.title }}
+  </h1>
+
+  <!-- Meta info -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-6 text-sm text-gray-500 dark:text-gray-400 mb-6">
+
+    {% if project.client_name %}
+    <div class="flex items-center gap-2">
+      <span>👤</span>
+      <span>{{ project.client_name }}</span>
+    </div>
+    {% endif %}
+
+    {% if project.location %}
+    <div class="flex items-center gap-2">
+      <span>📍</span>
+      <span>{{ project.location }}</span>
+    </div>
+    {% endif %}
+
+    {% if project.shoot_date %}
+    <div class="flex items-center gap-2">
+      <span>📅</span>
+      <span>{{ project.shoot_date|date:"F Y" }}</span>
+    </div>
+    {% endif %}
+
+    {% if project.camera_used %}
+    <div class="flex items-center gap-2">
+      <span>📷</span>
+      <span>{{ project.camera_used }}</span>
+    </div>
+    {% endif %}
+
+  </div>
+
+  <!-- Divider -->
+  <div class="w-16 h-[2px] bg-gray-200 dark:bg-gray-700 mb-6"></div>
+
+  <!-- Description -->
+  {% if project.description %}
+  <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-[15px]">
+    {{ project.description }}
+  </p>
+  {% endif %}
+
+</div>
+
+
+
+  <!-- Gallery -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+    {% for img in project.images.all %}
+    <img src="{{ img.image.url }}"
+         loading="lazy"
+         class="lightbox-img cursor-pointer w-full h-72 object-cover rounded-xl
+                transition-transform duration-500 hover:scale-[1.02]">
+    {% endfor %}
+
+  </div>
+
+</section>
+
+{% endblock %}

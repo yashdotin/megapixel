@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section class="max-w-lg mx-auto px-4 py-16">
+
+  <h1 class="text-2xl font-semibold mb-6">Edit Profile</h1>
+
+  <form method="post" enctype="multipart/form-data"
+        class="space-y-4 bg-white/80 dark:bg-[#141414]/80 backdrop-blur p-6 rounded-xl">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button class="w-full py-2 bg-black text-white rounded-lg">
+      Save Changes
+    </button>
+  </form>
+
+</section>
+
+{% endblock %}
