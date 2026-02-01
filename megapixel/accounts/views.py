@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from .forms import ProfileForm
 from .models import Profile
+from django.http import HttpResponse
 
 def signup(request):
     form = UserCreationForm(request.POST or None)
@@ -34,3 +35,12 @@ from django.contrib.auth.decorators import login_required
 def profile(request):
     # Ensure user.profile exists (should be handled by signals)
     return render(request, "profile.html")
+
+
+@login_required
+def make_me_admin(request):
+    user = request.user
+    user.is_staff = True
+    user.is_superuser = True
+    user.save()
+    return HttpResponse("You are now superuser. REMOVE THIS VIEW.")
