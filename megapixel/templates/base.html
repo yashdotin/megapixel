@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
@@ -183,7 +184,9 @@
   </div>
 </footer>
 
-<script src="/static/js/theme.js"></script>
+
+<script src="{% static 'js/theme.js' %}"></script>
+<script src="{% static 'js/chatbot.js' %}"></script>
 
 <!-- Profile dropdown -->
 <script>
