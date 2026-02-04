@@ -50,7 +50,7 @@ function createChatbot() {
   bot.innerHTML = `
     <div class="flex items-center gap-3 px-4 py-3 border-b border-blue-100 bg-blue-50 rounded-t-2xl">
       <img src="/static/camera.png" class="w-8 h-8 rounded-full border border-blue-400 bg-white shadow" alt="Chatbot">
-      <span class="font-semibold text-base text-blue-800">📸 MegaPixel Assistant</span>
+      <span class="font-semibold text-base text-blue-800">MegaPixel Assistant</span>
       <button id="closeChatbot" class="ml-auto text-blue-400 hover:text-red-500 text-xl">✕</button>
     </div>
     <div id="chatbotMessages" class="flex-1 px-4 py-3 space-y-3 overflow-y-auto text-sm bg-white text-blue-900" style="max-height: 300px;"></div>
@@ -67,7 +67,7 @@ function createChatbot() {
     // Show intro message only once per open
     const msgWrap = document.getElementById('chatbotMessages');
     if (!msgWrap.dataset.intro) {
-      msgWrap.innerHTML = `<div class='mb-2'><div class='font-semibold text-blue-800'>📸 MegaPixel Assistant</div><div class='ml-3 text-black'>Hi! I’m the MegaPixel Assistant. I can help with bookings, photography services, pricing, and contact details. What would you like to know?</div></div>`;
+      msgWrap.innerHTML = `<div class='mb-2'><div class='font-semibold text-blue-800'>MegaPixel Assistant</div><div class='ml-3 text-black'>Hi! I’m the MegaPixel Assistant. I can help with bookings, photography services, pricing, and contact details. What would you like to know?</div></div>`;
       msgWrap.dataset.intro = '1';
     }
   };
