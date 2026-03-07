@@ -138,8 +138,23 @@ function addChatbotMessage(q, a) {
 function createChatbotButton() {
   const btn = document.createElement('button');
   btn.id = 'openChatbotBtn';
-  btn.className = 'fixed bottom-8 right-8 z-50 bg-gradient-to-br  bg-white text-blue shadow-xl rounded-full w-16 h-16 flex flex-col items-center justify-center text-xs hover:scale-110 transition border-4 border-white';
-  btn.innerHTML = '<img src="/static/camera.png" class="w-8 h-8 mb-1"> <span class="block text-xs font-semibold text-blue-100">Ask me</span>';
+
+  btn.className = `
+  fixed bottom-8 right-8 z-50
+  bg-white
+  shadow-xl
+  rounded-full
+  w-16 h-16
+  flex flex-col items-center justify-center
+  hover:scale-110 transition
+  border border-gray-200
+  `;
+
+  btn.innerHTML = `
+    <img src="/static/camera.png" class="w-8 h-8 bg-white">
+    <span class="text-xs font-semibold text-blue-600">Ask me</span>
+  `;
+
   document.body.appendChild(btn);
 }
 
