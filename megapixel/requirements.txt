@@ -9,3 +9,5 @@ asgiref
 sqlparse
 tzdata
 setuptools
+cloudinary
+django-cloudinary-storage
