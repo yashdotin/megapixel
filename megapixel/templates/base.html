@@ -256,6 +256,22 @@
 
 <script>
 
+function getCSRFToken() {
+    let cookieValue = null;
+    const cookies = document.cookie.split(';');
+
+    for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+
+        if (cookie.startsWith('csrftoken=')) {
+            cookieValue = cookie.substring('csrftoken='.length);
+            break;
+        }
+    }
+
+    return cookieValue;
+}
+
 function sendOTP(){
 
 const email = document.getElementById("id_email").value
@@ -264,18 +280,29 @@ fetch("/send-otp/",{
 method:"POST",
 headers:{
 "Content-Type":"application/json",
-"X-CSRFToken":"{{ csrf_token }}"
+"X-CSRFToken": getCSRFToken()
 },
 body:JSON.stringify({email: email})
 })
-.then(res=>res.json())
+.then(res=>{
+if(!res.ok){
+throw new Error("Server error while sending OTP")
+}
+return res.json()
+})
 .then(data=>{
 
 if(data.status==="sent"){
 alert("OTP sent to your email")
 document.getElementById("otp-section").classList.remove("hidden")
+}else{
+alert(data.message || "Failed to send OTP")
 }
 
+})
+.catch(err=>{
+console.error(err)
+alert("Error sending OTP")
 })
 
 }
@@ -289,14 +316,19 @@ fetch("/verify-otp/",{
 method:"POST",
 headers:{
 "Content-Type":"application/json",
-"X-CSRFToken":"{{ csrf_token }}"
+"X-CSRFToken": getCSRFToken()
 },
 body:JSON.stringify({
 email:email,
 otp:otp
 })
 })
-.then(res=>res.json())
+.then(res=>{
+if(!res.ok){
+throw new Error("Server error while verifying OTP")
+}
+return res.json()
+})
 .then(data=>{
 
 if(data.status==="verified"){
@@ -314,6 +346,10 @@ alert("Invalid OTP")
 
 }
 
+})
+.catch(err=>{
+console.error(err)
+alert("Error verifying OTP")
 })
 
 }
