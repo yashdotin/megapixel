@@ -5,6 +5,7 @@
 
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" href="/static/camera.png">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <title>MegaPixel Creations</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -52,6 +53,7 @@
       <a href="/about/" class="hover:text-black dark:hover:text-white">About</a>
       <a href="/projects/" class="hover:text-black dark:hover:text-white">Projects</a>
       <a href="/contact/" class="hover:text-black dark:hover:text-white">Contact</a>
+      <a class="nav-link" href="{% url 'services' %}">Services</a>
     </div>
 
     <!-- Right -->
@@ -251,6 +253,70 @@
   });
 </script>
 
+<script>
 
+function sendOTP(){
+
+const email = document.getElementById("id_email").value
+
+fetch("/send-otp/",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+"X-CSRFToken":"{{ csrf_token }}"
+},
+body:JSON.stringify({email: email})
+})
+.then(res=>res.json())
+.then(data=>{
+
+if(data.status==="sent"){
+alert("OTP sent to your email")
+document.getElementById("otp-section").classList.remove("hidden")
+}
+
+})
+
+}
+
+function verifyOTP(){
+
+const email=document.querySelector("input[name=email]").value
+const otp=document.getElementById("otp").value
+
+fetch("/verify-otp/",{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+"X-CSRFToken":"{{ csrf_token }}"
+},
+body:JSON.stringify({
+email:email,
+otp:otp
+})
+})
+.then(res=>res.json())
+.then(data=>{
+
+if(data.status==="verified"){
+
+alert("Email verified")
+
+document.getElementById("message-section").classList.remove("hidden")
+
+document.getElementById("submitBtn").disabled=false
+document.getElementById("submitBtn").classList.remove("opacity-40")
+
+}else{
+
+alert("Invalid OTP")
+
+}
+
+})
+
+}
+
+</script>
 </body>
 </html>

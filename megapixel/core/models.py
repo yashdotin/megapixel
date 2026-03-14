@@ -51,3 +51,15 @@ class ProjectImage(models.Model):
 
     def __str__(self):
         return f"{self.project.title} image"
+
+class ContactMessage(models.Model):
+
+    name = models.CharField(max_length=200)
+    email = models.EmailField()
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+class EmailOTP(models.Model):
+
+    email = models.EmailField()
+    otp = models.CharField(max_length=6)
+    created_at = models.DateTimeField(auto_now_add=True)

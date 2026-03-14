@@ -19,29 +19,60 @@
       </p>
     {% endif %}
 
-    <form method="post" class="space-y-5">
-      {% csrf_token %}
+    <form method="post" class="space-y-5" id="contactForm">
+{% csrf_token %}
 
-      <div>
-        <label class="block text-sm mb-1">Full Name</label>
-        {{ form.name }}
-      </div>
+<div>
+<label class="block text-sm mb-1">Full Name</label>
+{{ form.name }}
+</div>
 
-      <div>
-        <label class="block text-sm mb-1">Email Address</label>
-        {{ form.email }}
-      </div>
+<div>
+<label class="block text-sm mb-1">Email Address</label>
 
-      <div>
-        <label class="block text-sm mb-1">Message</label>
-        {{ form.message }}
-      </div>
+<div class="flex gap-2">
+{{ form.email }}
 
-      <button
-        class="w-full py-3 rounded-xl bg-black text-white font-medium hover:opacity-90 transition">
-        Send Message
-      </button>
-    </form>
+<button type="button"
+onclick="sendOTP()"
+class="px-4 py-2 bg-black text-white rounded-lg text-sm">
+Send OTP
+</button>
+</div>
+
+</div>
+
+<div id="otp-section" class="hidden">
+<label class="block text-sm mb-1">Enter OTP</label>
+
+<div class="flex gap-2">
+<input
+id="otp"
+type="text"
+placeholder="Enter OTP"
+class="w-full px-4 py-2 rounded-lg border dark:bg-[#1c1c1c]">
+
+<button type="button"
+onclick="verifyOTP()"
+class="px-4 py-2 bg-green-600 text-white rounded-lg text-sm">
+Verify
+</button>
+</div>
+</div>
+
+<div id="message-section" class="hidden">
+<label class="block text-sm mb-1">Message</label>
+{{ form.message }}
+</div>
+
+<button
+id="submitBtn"
+disabled
+class="w-full py-3 rounded-xl bg-black text-white font-medium opacity-40">
+Send Message
+</button>
+
+</form>
 
     <p class="text-xs text-gray-400 text-center mt-6">
       We respect your privacy. Your details will never be shared.

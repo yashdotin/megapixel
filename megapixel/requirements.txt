@@ -11,3 +11,4 @@ tzdata
 setuptools
 cloudinary
 django-cloudinary-storage
+django-otp

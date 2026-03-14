@@ -1,0 +1,31 @@
+.services-section{
+    padding:80px 20px;
+    text-align:center;
+}
+
+.package-container{
+    display:flex;
+    justify-content:center;
+    gap:30px;
+    flex-wrap:wrap;
+    margin-top:40px;
+}
+
+.package-card{
+    background:white;
+    padding:30px;
+    width:250px;
+    border-radius:16px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.1);
+    transition:0.3s;
+}
+
+.package-card:hover{
+    transform:translateY(-8px);
+}
+
+.package-card h2{
+    font-size:20px;
+    font-weight:600;
+    margin-bottom:10px;
+}
