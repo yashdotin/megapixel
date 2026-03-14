@@ -29,7 +29,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 EMAIL_HOST_USER = "yashawasthi854@gmail.com"
-EMAIL_HOST_PASSWORD = "jmzh lper hxnn kdco"
+EMAIL_HOST_PASSWORD = os.getenv("app_password")
 
 INSTALLED_APPS = [
     "django.contrib.admin",
