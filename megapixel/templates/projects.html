@@ -12,7 +12,8 @@
     </p>
   </div>
 
-  <!-- Category Filter -->
+
+  <!-- CATEGORY FILTER -->
   <div class="flex flex-wrap gap-3 mb-10 text-sm">
 
     <a href="{% url 'projects' %}"
@@ -35,7 +36,8 @@
 
   </div>
 
-  <!-- Projects Grid -->
+
+  <!-- PORTFOLIO PROJECTS -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
     {% for p in projects %}
@@ -59,6 +61,49 @@
     {% endfor %}
 
   </div>
+
+
+  <!-- CLIENT GALLERIES SECTION -->
+  {% if public_galleries %}
+
+  <div class="mt-20 mb-10">
+    <h2 class="text-3xl font-semibold mb-6">Client Stories</h2>
+    <p class="text-gray-600 dark:text-gray-400 max-w-2xl">
+      Real moments captured for our clients. Each gallery highlights the emotions
+      and memories from their special events.
+    </p>
+  </div>
+
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+    {% for g in public_galleries %}
+
+    <a href="{% url 'public_gallery' g.id %}"
+       class="group relative overflow-hidden rounded-2xl shadow-lg bg-black">
+
+      {% with g.images.first as first_image %}
+      {% if first_image %}
+      <img src="{{ first_image.image.url }}"
+           loading="lazy"
+           class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110">
+      {% endif %}
+      {% endwith %}
+
+      <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-end p-5">
+        <div>
+          <h3 class="text-lg font-semibold text-white">{{ g.title }}</h3>
+          <p class="text-sm text-gray-300">Client Gallery</p>
+        </div>
+      </div>
+
+    </a>
+
+    {% endfor %}
+
+  </div>
+
+  {% endif %}
 
 </section>
 

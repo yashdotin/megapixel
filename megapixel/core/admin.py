@@ -4,6 +4,20 @@ from django.urls import path
 from django.utils.html import format_html
 from django.shortcuts import redirect
 from .admin_views import bulk_upload_images
+from .models import ClientGallery, ClientGalleryImage
+
+class ClientGalleryImageInline(admin.TabularInline):
+    model = ClientGalleryImage
+    extra = 10
+
+
+class ClientGalleryAdmin(admin.ModelAdmin):
+    inlines = [ClientGalleryImageInline]
+
+admin.site.register(ClientGallery, ClientGalleryAdmin)
+
+
+admin.site.register(ClientGalleryImage)
 
 class ProjectImageInline(admin.TabularInline):
     model = ProjectImage

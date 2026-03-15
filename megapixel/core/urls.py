@@ -14,4 +14,8 @@ urlpatterns = [
     path('services/', views.services, name='services'),
     path("send-otp/",views.send_otp),
     path("verify-otp/",views.verify_otp),
+    path("client-galleries/", views.client_galleries, name="client_galleries"),
+path("client-gallery/<int:pk>/", views.client_gallery_detail, name="client_gallery_detail"),
+path("my-galleries/", views.client_galleries, name="client_galleries"),
+path("gallery/<int:pk>/", views.client_gallery_detail, name="client_gallery_detail"),
 ]

@@ -9,6 +9,8 @@ import random
 import json
 from django.utils import timezone
 from datetime import timedelta
+from django.contrib.auth.decorators import login_required
+from .models import ClientGallery
 
 def home(request):
     return render(request, 'home.html')
@@ -17,15 +19,20 @@ def about(request):
     return render(request, 'about.html')
 
 def projects(request):
+
     category = request.GET.get('category')
+
     projects = Project.objects.all().order_by('-created_at')
+
+    public_galleries = ClientGallery.objects.filter(is_public=True)
 
     if category:
         projects = projects.filter(category=category)
 
     return render(request, 'projects.html', {
         'projects': projects,
-        'project_categories': Project.CATEGORY_CHOICES
+        'project_categories': Project.CATEGORY_CHOICES,
+        'public_galleries': public_galleries,
     })
 
 def services(request):
@@ -163,3 +170,37 @@ def verify_otp(request):
         return JsonResponse(
             {"status": "error", "message": str(e)}
         )
+    
+@login_required
+def client_galleries(request):
+
+    galleries = ClientGallery.objects.filter(client=request.user)
+
+    return render(request, "client_galleries.html", {
+        "galleries": galleries
+    })
+
+
+@login_required
+def client_gallery_detail(request, pk):
+
+    gallery = get_object_or_404(
+        ClientGallery,
+        pk=pk,
+        client=request.user
+    )
+
+    return render(request,"client_gallery_detail.html",{
+        "gallery":gallery
+    })
+def public_gallery(request, pk):
+
+    gallery = get_object_or_404(
+        ClientGallery,
+        pk=pk,
+        is_public=True
+    )
+
+    return render(request,"public_gallery.html",{
+        "gallery":gallery
+    })

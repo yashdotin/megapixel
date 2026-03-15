@@ -1,5 +1,6 @@
 from django.db import models
 from cloudinary.models import CloudinaryField
+from django.contrib.auth.models import User
 
 
 class Project(models.Model):
@@ -73,3 +74,38 @@ class EmailOTP(models.Model):
 
     def __str__(self):
         return self.email
+    
+class ClientGallery(models.Model):
+
+    client = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="client_galleries"
+    )
+
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+
+    # show on portfolio/projects page
+    is_public = models.BooleanField(default=False)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+
+class ClientGalleryImage(models.Model):
+
+    gallery = models.ForeignKey(
+        ClientGallery,
+        related_name="images",
+        on_delete=models.CASCADE
+    )
+
+    image = CloudinaryField("image")
+
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.gallery.title} image"

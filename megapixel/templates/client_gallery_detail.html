@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="max-w-7xl mx-auto py-16 px-4">
+
+<h1 class="text-3xl font-semibold mb-10">
+{{ gallery.title }}
+</h1>
+
+<div class="grid md:grid-cols-3 gap-6">
+
+{% for image in gallery.images.all %}
+
+<div class="relative">
+
+<img src="{{ image.image.url }}"
+     class="w-full h-72 object-cover rounded-xl">
+
+<a href="{{ image.image.url }}" download
+class="absolute bottom-3 right-3 bg-black text-white text-xs px-3 py-1 rounded">
+
+Download
+
+</a>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</section>
+
+{% endblock %}
