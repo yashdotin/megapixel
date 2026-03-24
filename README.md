@@ -83,43 +83,6 @@ megapixel/
 
 ---
 
-✦ Getting Started
-
-1. Clone the repo
-
-git clone https://github.com/yashdotin/megapixel.git
-cd megapixel
-
-2. Setup environment
-
-python -m venv venv
-venv\Scripts\activate   # Windows
-source venv/bin/activate  # Mac/Linux
-
-3. Install dependencies
-
-pip install -r requirements.txt
-
-4. Configure environment variables
-
-Create ".env" file:
-
-SECRET_KEY=your_secret_key
-DEBUG=True
-DATABASE_URL=your_database_url
-EMAIL_HOST_PASSWORD=your_email_password
-
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
-
-5. Run project
-
-python manage.py migrate
-python manage.py createsuperuser
-python manage.py runserver
-
----
 
 ✦ Routes Overview
 
