@@ -109,12 +109,7 @@ It combines:
 That makes it portfolio-worthy, not just practice.
 
 ---
- these and this project jumps a level.
-
-
-
----
-
+ 
 ✦ Author
 
 Yash
