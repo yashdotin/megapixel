@@ -151,7 +151,9 @@ function createChatbotButton() {
   `;
 
   btn.innerHTML = `
-    <img src="/static/camera.png" class="w-8 h-8 bg-white">
+    <span class="w-10 h-10 flex items-center justify-center rounded-full bg-black border-2 border-white shadow">
+      <img src="/static/camera.png" class="w-8 h-8">
+    </span>
     <span class="text-xs font-semibold text-blue-600">Ask me</span>
   `;
 
