@@ -4,37 +4,36 @@ from django.contrib.auth.models import User
 
 
 class Project(models.Model):
-    title = models.CharField(max_length=200)
-    client_name = models.CharField(max_length=200, blank=True)
-    location = models.CharField(max_length=200, blank=True)
-
-    shoot_date = models.DateField(null=True, blank=True)
-    camera_used = models.CharField(max_length=200, blank=True)
-
     CATEGORY_CHOICES = [
         ('wedding', 'Wedding'),
-        ('birthday', 'Birthday'),
         ('prewedding', 'Pre-Wedding'),
-        ('engagement', 'Engagement'),
-        ('portrait', 'Portrait'),
-        ('travel', 'Travel'),
-        ('corporate', 'Corporate Event'),
-        ('concert', 'Concert / Stage Show'),
-        ('fashion', 'Fashion Shoot'),
-        ('product', 'Product Shoot'),
-        ('other', 'Other Event'),
+        ('babyshoot', 'Baby Shoot'),
+        ('advertisement', 'Advertisement'),
+        ('podcast', 'Podcast'),
+        ('documentary', 'Documentary'),
+        ('corporate', 'Corporate Shoots'),
     ]
-
     category = models.CharField(
         max_length=20,
         choices=CATEGORY_CHOICES,
         blank=True
     )
-
+    title = models.CharField(max_length=200)
+    client_name = models.CharField(max_length=200, blank=True)
+    location = models.CharField(max_length=200, blank=True)
+    shoot_date = models.DateField(null=True, blank=True)
+    camera_used = models.CharField(max_length=200, blank=True)
     description = models.TextField(blank=True)
+    cover = CloudinaryField("cover", resource_type="auto", blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
-    cover = CloudinaryField("cover", blank=True, null=True)
+# Model for BTS mp4 videos
+class BTSVideo(models.Model):
 
+    title = models.CharField(max_length=200)
+    cover = CloudinaryField("cover", resource_type="auto", blank=True, null=True)
+    video = CloudinaryField("video", resource_type="video")
+    description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

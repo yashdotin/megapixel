@@ -27,7 +27,7 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-EMAIL_HOST_USER = "yashawasthi854@gmail.com"
+EMAIL_HOST_USER = "megapixelcreationss@gmail.com"
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
 INSTALLED_APPS = [
@@ -86,6 +86,12 @@ DATABASES = {
     )
 }
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
 
 LOGIN_URL = "/accounts/login/"
 LOGIN_REDIRECT_URL = "/profile/"

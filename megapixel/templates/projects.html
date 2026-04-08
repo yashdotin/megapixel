@@ -1,8 +1,71 @@
-{% extends 'base.html' %}
+  
+  {% extends 'base.html' %}
+  <!-- BTS VIDEO GALLERY -->
+  {% if bts_videos %}
+  <div class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">BTS Videos</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {% for video in bts_videos %}
+      <div class="relative rounded-2xl shadow-lg bg-black group">
+        <video id="bts-video-{{ video.id }}" src="{{ video.video.url }}" poster="/static/dummy/photo1.jpeg" class="w-full h-64 object-cover rounded-2xl cursor-pointer transition duration-300 group-hover:scale-105" preload="metadata"></video>
+        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition bg-black/60 rounded-2xl">
+          <button onclick="expandBTSVideo({{ video.id }})" class="px-6 py-2 rounded-full bg-white text-black font-semibold shadow-lg">Expand</button>
+        </div>
+        <div class="p-4">
+          <h3 class="text-lg font-semibold text-white mb-1">{{ video.title }}</h3>
+          <p class="text-sm text-gray-300">{{ video.description }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+<script>
+function expandBTSVideo(id) {
+  const video = document.getElementById('bts-video-' + id);
+  if (!video) return;
+  // Create overlay
+  const overlay = document.createElement('div');
+  overlay.style.position = 'fixed';
+  overlay.style.top = 0;
+  overlay.style.left = 0;
+  overlay.style.width = '100vw';
+  overlay.style.height = '100vh';
+  overlay.style.background = 'rgba(0,0,0,0.9)';
+  overlay.style.zIndex = 9999;
+  overlay.style.display = 'flex';
+  overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'center';
+  overlay.onclick = function() {
+    document.body.removeChild(overlay);
+    expandedVideo.pause();
+    expandedVideo.currentTime = 0;
+  };
+  // Clone video
+  const expandedVideo = video.cloneNode(true);
+  expandedVideo.controls = true;
+  expandedVideo.autoplay = true;
+  expandedVideo.style.width = '90vw';
+  expandedVideo.style.maxWidth = '900px';
+  expandedVideo.style.height = 'auto';
+  expandedVideo.style.borderRadius = '1rem';
+  expandedVideo.style.boxShadow = '0 8px 32px rgba(0,0,0,0.7)';
+  overlay.appendChild(expandedVideo);
+  document.body.appendChild(overlay);
+  expandedVideo.play();
+}
+</script>
+
 {% block content %}
 
 <section class="px-4 md:px-10 py-14 max-w-7xl mx-auto">
 
+  <!-- Watch BTS Button -->
+  <div class="mb-8 flex justify-end">
+    <a href="/bts/" class="inline-block px-6 py-2 rounded-full bg-black text-white font-semibold shadow-lg hover:bg-gray-800 transition">
+      🎬 Watch BTS
+    </a>
+  </div>
   <!-- Heading -->
   <div class="mb-12 max-w-3xl">
     <h1 class="text-4xl font-semibold mb-4">Our Work</h1>

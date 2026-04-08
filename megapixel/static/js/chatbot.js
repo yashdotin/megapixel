@@ -28,7 +28,7 @@ const chatbotQuestions = [
   },
   {
     q: "How can I contact your team?",
-    a: 'You can reach us via <a href="/contact/" class="text-green-300 underline">Contact page</a>, <a href="mailto:email@example.com" class="text-green-300 underline">email</a>, or <a href="https://www.instagram.com/megapixel_creations/" target="_blank" class="text-green-300 underline">Instagram</a>.',
+    a: 'You can reach us via <a href="/contact/" class="text-green-300 underline">Contact page</a>, <a href="mailto:megapixelcreationss@gmail.com" class="text-green-300 underline">email</a>, or <a href="https://www.instagram.com/megapixel_creations/" target="_blank" class="text-green-300 underline">Instagram</a>.',
     followups: [
       { label: "📞 Call us", a: 'Call us at <a href="tel:+919956963676" class="text-green-300 underline">+91 9956963676</a>.' }
     ]

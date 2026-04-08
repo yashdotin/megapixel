@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import home, about, projects, project_detail, contact
+from .views import home, about, projects, project_detail, contact, bts_gallery
 from accounts.views import profile
 from . import views
 
@@ -18,4 +18,5 @@ urlpatterns = [
 path("client-gallery/<int:pk>/", views.client_gallery_detail, name="client_gallery_detail"),
 path("my-galleries/", views.client_galleries, name="client_galleries"),
 path("gallery/<int:pk>/", views.client_gallery_detail, name="client_gallery_detail"),
+path("bts/", bts_gallery, name="bts_gallery"),
 ]

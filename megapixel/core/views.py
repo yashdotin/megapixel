@@ -10,7 +10,7 @@ import json
 from django.utils import timezone
 from datetime import timedelta
 from django.contrib.auth.decorators import login_required
-from .models import ClientGallery
+from .models import ClientGallery, BTSVideo
 
 def home(request):
     return render(request, 'home.html')
@@ -29,10 +29,13 @@ def projects(request):
     if category:
         projects = projects.filter(category=category)
 
+    from .models import BTSVideo
+    bts_videos = BTSVideo.objects.all().order_by('-created_at')
     return render(request, 'projects.html', {
         'projects': projects,
         'project_categories': Project.CATEGORY_CHOICES,
         'public_galleries': public_galleries,
+        'bts_videos': bts_videos,
     })
 
 def services(request):
@@ -71,7 +74,7 @@ def contact(request):
                     subject=f"New contact from {name}",
                     message=message,
                     from_email=email,
-                    recipient_list=[settings.EMAIL_HOST_USER],
+                    recipient_list=["megapixelcreationss@gmail.com"],
                 )
             except Exception as e:
                 print("EMAIL ERROR:", e)
@@ -126,7 +129,7 @@ def send_otp(request):
             send_mail(
                 "Your OTP Code",
                 f"Your OTP is {otp}",
-                settings.EMAIL_HOST_USER,
+                "megapixelcreationss@gmail.com",
                 [email],
                 fail_silently=False,
             )
@@ -204,3 +207,6 @@ def public_gallery(request, pk):
     return render(request,"public_gallery.html",{
         "gallery":gallery
     })
+def bts_gallery(request):
+    bts_videos = BTSVideo.objects.all().order_by('-created_at')
+    return render(request, 'bts_gallery.html', {'bts_videos': bts_videos})

@@ -6,10 +6,10 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" href="/static/camera.png">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <title>MegaPixel Creations</title>
+    <title>Megapixel Creations</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="MegaPixel Creations – Professional photography studio capturing timeless moments.">
+    <meta name="description" content="Megapixel Creations – Professional photography studio capturing timeless moments.">
 
     {% block head %}{% endblock %}
 
@@ -18,6 +18,24 @@
         tailwind.config = { darkMode: 'class' }
         if (localStorage.theme === 'dark') {
             document.documentElement.classList.add('dark')
+        }
+        // Custom dark theme for greenish-black
+        function setGreenDarkTheme() {
+          document.documentElement.classList.add('dark');
+          document.body.classList.add('greenish-dark');
+        }
+        function setLightTheme() {
+          document.documentElement.classList.remove('dark');
+          document.body.classList.remove('greenish-dark');
+        }
+        window.toggleTheme = function() {
+          if (document.documentElement.classList.contains('dark')) {
+            setLightTheme();
+            localStorage.theme = 'light';
+          } else {
+            setGreenDarkTheme();
+            localStorage.theme = 'dark';
+          }
         }
     </script>
 
@@ -31,43 +49,87 @@
     transform: scale(1);
     opacity: 1;
   }
+ 
+.terminal-text {
+  font-family: monospace;
+  color: #00ff9f;
+}
+
+.hidden-name::after {
+  content: "";
+  margin-left: 10px;
+  font-family: monospace;
+  color: #ff003c;
+  transition: 0.3s;
+}
+
+/* After typing → show ACCESS DENIED */
+.hidden-name.show-denied::after {
+  content: " [ACCESS DENIED]";
+}
+
+/* Hover (desktop only) */
+.hidden-name:hover::after {
+  content: " [DECRYPTING...]";
+  color: #00ff9f;
+}
+
+/* After reveal */
+.hidden-name.revealed::after {
+  content: "";
+}
+
     </style>
 </head>
 
-<body class="min-h-screen flex flex-col bg-white dark:bg-[#0b0b0b] text-gray-900 dark:text-gray-100">
+<body class="min-h-screen flex flex-col bg-[#f9f6f2] dark:bg-gradient-to-br dark:from-green-900 dark:via-black dark:to-black text-gray-900 dark:text-gray-100 transition-colors duration-500">
+
 
 <!-- Global camera watermark -->
-<div class="fixed inset-0 bg-[url('/static/camera.png')] bg-center bg-no-repeat opacity-[0.03] pointer-events-none"></div>
+<div class="fixed inset-0 bg-[url('/static/camera.png')] bg-center bg-no-repeat opacity-[0.03] pointer-events-none z-0"></div>
 
-<nav class="fixed top-0 w-full z-50 bg-white/90 dark:bg-[#0b0b0b]/90 backdrop-blur border-b border-gray-100 dark:border-gray-800">
+<!-- Floating Options Capsule -->
+<div class="w-full flex justify-center z-40" style="position:relative;">
+  <div class="flex gap-3 px-4 py-2 mt-20 mb-4 rounded-full border border-black dark:border-green-900 bg-white/90 dark:bg-gradient-to-br dark:from-green-900 dark:via-black dark:to-black/90 shadow-lg backdrop-blur max-w-max animate-fade-in"
+       style="position:relative;">
+    <a href="/projects/" class="px-4 py-1 rounded-full hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition font-medium">Projects</a>
+    <a href="/about/" class="px-4 py-1 rounded-full hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition font-medium">About</a>
+    <a href="/my-galleries/" class="px-4 py-1 rounded-full hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition font-medium">Gallery</a>
+    <!-- <a href="/bts/" class="px-4 py-1 rounded-full hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition font-medium">Watch BTS</a> -->
+    <a href="/contact/" class="px-4 py-1 rounded-full hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition font-medium">Contact</a>
+    <a href="{% url 'services' %}" class="px-4 py-1 rounded-full hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition font-medium">Services</a>
+  </div>
+</div>
+
+<nav class="fixed top-0 w-full z-50 bg-white/90 dark:bg-gradient-to-br dark:from-green-900 dark:via-black dark:to-black/90 backdrop-blur border-b border-gray-100 dark:border-green-900">
   <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
 
     <!-- Left -->
     <a href="/" class="flex items-center gap-3">
       <img src="/static/camera.png" class="w-9 h-9 rounded-full">
-      <span class="font-semibold text-[17px]">MegaPixel Creations</span>
+      <span class="font-semibold text-[17px]">Megapixel Creations</span>
     </a>
 
     <!-- Center (desktop only) -->
     <div class="hidden md:flex items-center gap-8 text-sm text-gray-600 dark:text-gray-400">
-      <a href="/about/" class="hover:text-black dark:hover:text-white">About</a>
+      <!-- <a href="/about/" class="hover:text-black dark:hover:text-white">About</a>
       <a href="/projects/" class="hover:text-black dark:hover:text-white">Projects</a>
       <a href="/contact/" class="hover:text-black dark:hover:text-white">Contact</a>
       <a class="nav-link" href="{% url 'services' %}">Services</a>
       <a href="/my-galleries/"
 class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800">
 My Galleries
-</a>
+</a> -->
     </div>
 
     <!-- Right -->
     <div class="flex items-center gap-3">
 
       <!-- Mobile menu button -->
-      <button id="mobileMenuBtn"
+      <!-- <button id="mobileMenuBtn"
               class="md:hidden w-9 h-9 rounded-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center">
         ☰
-      </button>
+      </button> -->
 
       <!-- Theme toggle -->
       <button onclick="toggleTheme()"
@@ -77,10 +139,10 @@ My Galleries
 
       <!-- Profile Menu -->
       <div class="relative">
-        <button id="profileBtn"
+        <!-- <button id="profileBtn"
                 class="w-9 h-9 rounded-full border border-gray-300 dark:border-gray-700 overflow-hidden">
           <img src="/static/camera.png" class="w-full h-full object-cover">
-        </button>
+        </button> -->
 
         <div id="profileMenu"
              class="hidden absolute right-0 mt-2 w-44 rounded-xl shadow-lg
@@ -133,10 +195,11 @@ My Galleries
 class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800">
 My Galleries
 </a>
+    <a href="/bts/" class="hover:text-black dark:hover:text-white">Watch BTS</a>
   </div>
 </div>
 
-<main class="pt-24 flex-grow">
+<main class="pt-2 flex-grow">
   {% block content %}{% endblock %}
 </main>
 
@@ -145,7 +208,7 @@ My Galleries
 
     <div class="text-left">
       <img src="/static/camera.png" class="w-16 h-16 rounded-full mb-4">
-      <p class="font-medium">MegaPixel Creations</p>
+      <p class="font-medium">Megapixel Creations</p>
       <p class="text-sm text-gray-500 dark:text-gray-400">
         Professional Photography Studio
       </p>
@@ -163,7 +226,7 @@ My Galleries
     <div class="text-left">
       <h4 class="font-semibold mb-3">Contact</h4>
       <p class="text-sm text-gray-500 dark:text-gray-400">📞 +91 9956963676</p>
-      <p class="text-sm text-gray-500 dark:text-gray-400">✉️ email@example.com</p>
+      <p class="text-sm text-gray-500 dark:text-gray-400">✉️ megapixelcreationss@gmail.com</p>
       <div class="flex gap-4 justify-start mt-4">
 
   <!-- Instagram -->
@@ -191,7 +254,9 @@ My Galleries
   </div>
 
   <div class="text-center text-sm text-gray-500 dark:text-gray-400 py-6 border-t border-gray-100 dark:border-gray-800">
-       Made with ❤️ by Yash · © {% now "Y" %} MegaPixel Creations. All rights reserved.
+      <span class="terminal-text"></span>
+<span class="hidden-name cursor-pointer" data-name="WWFzaCB"></span>
+<span> · © {% now "Y" %} Megapixel Creations. All rights reserved.</span>
   </div>
 </footer>
 
@@ -362,6 +427,50 @@ alert("Error verifying OTP")
 
 }
 
+</script>
+<script>
+const terminal = document.querySelector(".terminal-text");
+const nameEl = document.querySelector(".hidden-name");
+
+const text = ">_ accessing creator...";
+let i = 0;
+
+// Typing effect
+function typeEffect() {
+  if (i < text.length) {
+    terminal.innerText += text.charAt(i);
+    i++;
+    setTimeout(typeEffect, 40);
+  } else {
+    // After typing finishes → show ACCESS DENIED
+    setTimeout(() => {
+      nameEl.classList.add("show-denied");
+    }, 300);
+  }
+}
+
+// Reveal function
+function revealName() {
+  const encoded = nameEl.getAttribute("data-name");
+  const decoded = atob(encoded);
+
+  nameEl.classList.add("revealed");
+  nameEl.innerText = " Made with ❤️ by " + decoded;
+}
+
+// Start typing
+if (terminal) {
+  terminal.innerText = "";
+  typeEffect();
+}
+
+// Click + mobile tap
+if (nameEl) {
+  nameEl.addEventListener("click", revealName);
+
+  // Auto reveal after 3s (mobile smooth UX)
+  setTimeout(revealName, 3000);
+}
 </script>
 </body>
 </html>

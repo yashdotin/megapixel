@@ -1,31 +1,74 @@
 {% extends 'base.html' %}
 {% block content %}
-<section class="services-section">
-    <h1 class="text-center">Our Photography Packages</h1>
+<section class="relative py-12 px-2 sm:px-6 md:px-10 bg-[#f9f6f2] dark:bg-gradient-to-br dark:from-green-900 dark:via-black dark:to-black min-h-[90vh] overflow-hidden transition-colors duration-500">
+    <!-- Decorative floral corners (SVG or PNG, use your own for production) -->
+    <div class="absolute top-0 left-0 w-32 h-32 opacity-60 pointer-events-none select-none" style="background:url('/static/dummy/floral-corner.png') no-repeat center/contain;"></div>
+    <div class="absolute bottom-0 right-0 w-32 h-32 opacity-60 pointer-events-none select-none" style="background:url('/static/dummy/floral-corner.png') no-repeat center/contain;"></div>
 
-    <div class="package-container">
+    <div class="text-center mb-8 animate-fade-in">
+        <h1 class="text-4xl md:text-5xl font-serif font-bold text-[#a67c52] mb-2 tracking-tight">Megapixel Creations</h1>
+        <p class="text-lg md:text-xl text-gray-700 font-medium mb-2">CHOOSE THE ONE THAT’S PERFECT<br class="hidden sm:block"> FOR YOUR LOVE STORY! <span class="align-middle"></span></p>
+    </div>
 
-        <div class="package-card">
-            <h2>Basic Package</h2>
-            <p>1 Hour Shoot</p>
-            <p>20 Edited Photos</p>
-            <p>₹2000</p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-12 animate-on-scroll">
+        <!-- Silver Card -->
+        <div class="bg-white dark:bg-gradient-to-br dark:from-green-900 dark:via-black dark:to-black rounded-3xl shadow-xl p-7 flex flex-col items-center border-2 border-[#e5ded7] dark:border-green-900 relative transition-colors duration-500">
+            <div class="w-24 h-24 rounded-full overflow-hidden border-4 border-[#a67c52] bg-gray-100 -mt-16 mb-4 shadow-lg">
+                <img src="/static/dummy/silver.jpg" alt="Silver" class="object-cover w-full h-full">
+            </div>
+            <h2 class="text-2xl font-bold text-[#a67c52] mb-2">SILVER</h2>
+            <ul class="text-gray-700 text-base mb-6 space-y-1 text-left">
+                <li>• Haldi, mehandi, wedding</li>
+                <li>• We will cover 2 short & 1 full event</li>
+                <li>• In detail with 1 photo & 1 video</li>
+            </ul>
+            <div class="mt-auto">
+                <span class="inline-block bg-black text-white text-lg font-bold rounded-full px-8 py-2 shadow">₹55,000</span>
+            </div>
         </div>
-
-        <div class="package-card">
-            <h2>Standard Package</h2>
-            <p>3 Hour Shoot</p>
-            <p>50 Edited Photos</p>
-            <p>₹5000</p>
+        <!-- Gold Card -->
+        <div class="bg-white dark:bg-gradient-to-br dark:from-green-900 dark:via-black dark:to-black rounded-3xl shadow-xl p-7 flex flex-col items-center border-2 border-[#e5ded7] dark:border-green-900 relative transition-colors duration-500">
+            <div class="w-24 h-24 rounded-full overflow-hidden border-4 border-[#a67c52] bg-gray-100 -mt-16 mb-4 shadow-lg">
+                <img src="/static/dummy/gold.jpg" alt="Gold" class="object-cover w-full h-full">
+            </div>
+            <h2 class="text-2xl font-bold text-[#a67c52] mb-2">GOLD</h2>
+            <ul class="text-gray-700 text-base mb-6 space-y-1 text-left">
+                <li>• Haldi, Mehandi, Wedding</li>
+                <li>• We will cover 2 short & 1 full event</li>
+                <li>• In detail with 1 candid photo, 1 TP Photo & 1 video</li>
+            </ul>
+            <div class="mt-auto">
+                <span class="inline-block bg-black text-white text-lg font-bold rounded-full px-8 py-2 shadow">₹70,000</span>
+            </div>
         </div>
-
-        <div class="package-card">
-            <h2>Premium Package</h2>
-            <p>Full Day Coverage</p>
-            <p>150 Edited Photos</p>
-            <p>₹12000</p>
+        <!-- Diamond Card -->
+        <div class="bg-white dark:bg-gradient-to-br dark:from-green-900 dark:via-black dark:to-black rounded-3xl shadow-xl p-7 flex flex-col items-center border-2 border-[#e5ded7] dark:border-green-900 relative transition-colors duration-500">
+            <div class="w-24 h-24 rounded-full overflow-hidden border-4 border-[#a67c52] bg-gray-100 -mt-16 mb-4 shadow-lg">
+                <img src="/static/dummy/diamond.jpg" alt="Diamond" class="object-cover w-full h-full">
+            </div>
+            <h2 class="text-2xl font-bold text-[#a67c52] mb-2">DIAMOND</h2>
+            <ul class="text-gray-700 text-base mb-6 space-y-1 text-left">
+                <li>• Haldi, Mehandi, Wedding</li>
+                <li>• We will cover 2 short & 1 full event</li>
+                <li>• In cinematic, candid with drone and 1 TP & 1 TV</li>
+            </ul>
+            <div class="mt-auto">
+                <span class="inline-block bg-black text-white text-lg font-bold rounded-full px-8 py-2 shadow">₹1,00,000</span>
+            </div>
         </div>
+    </div>
 
+    <!-- Contact & CTA -->
+    <div class="flex flex-col md:flex-row items-center justify-center gap-4 mt-10 animate-fade-in">
+        <div class="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow border border-[#e5ded7]">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5 text-[#a67c52]"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" /></svg>
+            <span class="text-gray-700 text-sm font-medium">62, Preeti Nagar Lucknow</span>
+        </div>
+        <div class="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow border border-[#e5ded7]">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5 text-[#a67c52]"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-9 12V4" /></svg>
+            <span class="text-gray-700 text-sm font-medium">9044585401</span>
+        </div>
+        <a href="/contact/" class="bg-[#a67c52] hover:bg-[#8b6842] text-white font-semibold rounded-full px-6 py-2 shadow transition text-sm">BOOK NOW GET 10% OFF</a>
     </div>
 </section>
 {% endblock %}

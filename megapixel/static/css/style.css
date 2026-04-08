@@ -29,3 +29,31 @@
     font-weight:600;
     margin-bottom:10px;
 }
+.terminal-text {
+  font-family: monospace;
+  color: #00ff9f;
+  animation: flicker 1.5s infinite;
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.hidden-name::after {
+  content: " [ACCESS DENIED]";
+  color: #ff003c;
+  margin-left: 10px;
+  font-family: monospace;
+  transition: 0.3s;
+}
+
+.hidden-name:hover::after {
+  content: " [DECRYPTING...]";
+  color: #00ff9f;
+}
+
+.hidden-name.revealed::after {
+  content: " Yash";
+  color: #ffffff;
+}

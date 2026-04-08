@@ -1,10 +1,15 @@
 from django.contrib import admin
-from .models import Project, ProjectImage
 from django.urls import path
 from django.utils.html import format_html
 from django.shortcuts import redirect
 from .admin_views import bulk_upload_images
-from .models import ClientGallery, ClientGalleryImage
+from .models import Project, ProjectImage, BTSVideo, ClientGallery, ClientGalleryImage
+
+# Register BTSVideo for admin management
+@admin.register(BTSVideo)
+class BTSVideoAdmin(admin.ModelAdmin):
+    list_display = ('title', 'created_at')
+    search_fields = ('title', 'description')
 
 class ClientGalleryImageInline(admin.TabularInline):
     model = ClientGalleryImage
@@ -29,8 +34,8 @@ class ProjectImageInline(admin.TabularInline):
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ('title', 'category', 'shoot_date', 'bulk_upload_link')
-    list_filter = ('category',)
+    list_display = ('title', 'shoot_date', 'bulk_upload_link')
+    list_filter = ()
     search_fields = ('title', 'client_name', 'location')
     inlines = [ProjectImageInline]
 

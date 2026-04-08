@@ -1,17 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<section class="max-w-xl mx-auto px-4 py-16">
 
-  <div class="bg-white/80 dark:bg-[#141414]/80 backdrop-blur rounded-2xl p-8 shadow-xl animate-fade-in">
+<section class="relative py-12 px-2 sm:px-6 md:px-10 bg-[#f9f6f2] dark:bg-gradient-to-br dark:from-green-900 dark:via-black dark:to-black min-h-[90vh] overflow-hidden transition-colors duration-500">
+  <!-- Decorative floral corners (SVG or PNG, use your own for production) -->
+  <div class="absolute top-0 left-0 w-32 h-32 opacity-60 pointer-events-none select-none" style="background:url('/static/dummy/floral-corner.png') no-repeat center/contain;"></div>
+  <div class="absolute bottom-0 right-0 w-32 h-32 opacity-60 pointer-events-none select-none" style="background:url('/static/dummy/floral-corner.png') no-repeat center/contain;"></div>
 
-    <h1 class="text-2xl font-semibold mb-2 text-center">
-      Let’s Work Together 📸
-    </h1>
-
-    <p class="text-sm text-gray-500 dark:text-gray-400 text-center mb-8">
-      Share your requirement and we’ll get back to you shortly.
-    </p>
+  <div class="max-w-lg mx-auto bg-white dark:bg-gradient-to-br dark:from-green-900 dark:via-black dark:to-black rounded-3xl shadow-2xl p-8 md:p-12 border-2 border-[#e5ded7] dark:border-green-900 animate-fade-in relative z-10 transition-colors duration-500">
+    <h1 class="text-3xl md:text-4xl font-serif font-bold text-[#a67c52] mb-2 text-center tracking-tight">Let’s Work Together <span class="align-middle"></span></h1>
+    <p class="text-base md:text-lg text-gray-700 text-center mb-6">Share your requirement and we’ll get back to you shortly.</p>
 
     {% if success %}
       <p class="text-green-600 text-center mb-6">
@@ -20,66 +18,34 @@
     {% endif %}
 
     <form method="post" class="space-y-5" id="contactForm">
-{% csrf_token %}
+      {% csrf_token %}
+      <div>
+        <label class="block text-sm mb-1 font-medium text-[#a67c52]">Full Name</label>
+        {{ form.name }}
+      </div>
+      <div>
+        <label class="block text-sm mb-1 font-medium text-[#a67c52]">Email Address</label>
+        <div class="flex gap-2">
+          {{ form.email }}
+          <button type="button" onclick="sendOTP()" class="px-4 py-2 bg-[#a67c52] text-white rounded-lg text-sm font-semibold shadow">Send OTP</button>
+        </div>
+      </div>
+      <div id="otp-section" class="hidden">
+        <label class="block text-sm mb-1 font-medium text-[#a67c52]">Enter OTP</label>
+        <div class="flex gap-2">
+          <input id="otp" type="text" placeholder="Enter OTP" class="w-full px-4 py-2 rounded-lg border border-[#e5ded7] bg-[#f9f6f2]">
+          <button type="button" onclick="verifyOTP()" class="px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-semibold shadow">Verify</button>
+        </div>
+      </div>
+      <div id="message-section" class="hidden">
+        <label class="block text-sm mb-1 font-medium text-[#a67c52]">Message</label>
+        {{ form.message }}
+      </div>
+      <button id="submitBtn" disabled class="w-full py-3 rounded-xl bg-[#a67c52] text-white font-semibold shadow opacity-40 transition">Send Message</button>
+    </form>
 
-<div>
-<label class="block text-sm mb-1">Full Name</label>
-{{ form.name }}
-</div>
-
-<div>
-<label class="block text-sm mb-1">Email Address</label>
-
-<div class="flex gap-2">
-{{ form.email }}
-
-<button type="button"
-onclick="sendOTP()"
-class="px-4 py-2 bg-black text-white rounded-lg text-sm">
-Send OTP
-</button>
-</div>
-
-</div>
-
-<div id="otp-section" class="hidden">
-<label class="block text-sm mb-1">Enter OTP</label>
-
-<div class="flex gap-2">
-<input
-id="otp"
-type="text"
-placeholder="Enter OTP"
-class="w-full px-4 py-2 rounded-lg border dark:bg-[#1c1c1c]">
-
-<button type="button"
-onclick="verifyOTP()"
-class="px-4 py-2 bg-green-600 text-white rounded-lg text-sm">
-Verify
-</button>
-</div>
-</div>
-
-<div id="message-section" class="hidden">
-<label class="block text-sm mb-1">Message</label>
-{{ form.message }}
-</div>
-
-<button
-id="submitBtn"
-disabled
-class="w-full py-3 rounded-xl bg-black text-white font-medium opacity-40">
-Send Message
-</button>
-
-</form>
-
-    <p class="text-xs text-gray-400 text-center mt-6">
-      We respect your privacy. Your details will never be shared.
-    </p>
-
+    <p class="text-xs text-gray-400 text-center mt-6">We respect your privacy. Your details will never be shared.</p>
   </div>
-
 </section>
 
 {% endblock %}
