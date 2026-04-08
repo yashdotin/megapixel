@@ -141,13 +141,13 @@ function createChatbotButton() {
 
   btn.className = `
   fixed bottom-8 right-8 z-50
-  bg-white
+  bg-black
   shadow-xl
   rounded-full
   w-16 h-16
   flex flex-col items-center justify-center
   hover:scale-110 transition
-  border border-gray-200
+  border border-white
   `;
 
   btn.innerHTML = `
