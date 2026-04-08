@@ -147,11 +147,11 @@ function createChatbotButton() {
   w-16 h-16
   flex flex-col items-center justify-center
   hover:scale-110 transition
-  border border-white
+  border border-black
   `;
 
   btn.innerHTML = `
-    <span class="w-10 h-10 flex items-center justify-center rounded-full bg-black border-2 border-white shadow">
+    <span class="w-10 h-10 flex items-center justify-center rounded-full bg-black border-2 border-black shadow">
       <img src="/static/camera.png" class="w-8 h-8">
     </span>
     <span class="text-xs font-semibold text-blue-600">Ask me</span>
