@@ -43,7 +43,7 @@
 function expandBTSVideo(id) {
   const video = document.getElementById('bts-video-' + id);
   if (!video) return;
-  // Create overlay
+
   const overlay = document.createElement('div');
   overlay.style.position = 'fixed';
   overlay.style.top = 0;
@@ -55,27 +55,30 @@ function expandBTSVideo(id) {
   overlay.style.display = 'flex';
   overlay.style.alignItems = 'center';
   overlay.style.justifyContent = 'center';
-  overlay.onclick = function(e) {
-    if (e.target === overlay) {
-      document.body.removeChild(overlay);
-      expandedVideo.pause();
-      expandedVideo.currentTime = 0;
-    }
-  };
-  // Create a new video element (do not clone, to avoid autoplay issues)
+
   const expandedVideo = document.createElement('video');
   expandedVideo.src = video.src;
   expandedVideo.poster = video.poster;
   expandedVideo.controls = true;
   expandedVideo.autoplay = true;
+  expandedVideo.playsInline = true;
   expandedVideo.style.width = '90vw';
   expandedVideo.style.maxWidth = '900px';
   expandedVideo.style.height = 'auto';
   expandedVideo.style.borderRadius = '1rem';
   expandedVideo.style.boxShadow = '0 8px 32px rgba(0,0,0,0.7)';
+
+  overlay.onclick = function(e) {
+    if (e.target === overlay) {
+      expandedVideo.pause();
+      document.body.removeChild(overlay);
+    }
+  };
+
   overlay.appendChild(expandedVideo);
   document.body.appendChild(overlay);
-  expandedVideo.play();
+
+  expandedVideo.play().catch(() => {});
 }
 </script>
 {% endblock %}
