@@ -1,84 +1,76 @@
 {% extends 'base.html' %}
 {% block content %}
-<section class="px-2 sm:px-4 md:px-10 py-10 max-w-7xl mx-auto">
-  <div class="flex flex-col items-center mb-10 animate-fade-in">
-    <div class="flex items-center gap-3 mb-2">
-      <span class="inline-block bg-black text-white rounded-full p-3 shadow-lg text-2xl">🎬</span>
-      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">Watch BTS</h1>
-    </div>
-    <p class="text-gray-500 dark:text-gray-400 text-center max-w-xl">Go behind the scenes with our exclusive BTS videos. See the creative process, fun moments, and the real work that goes into every shoot!</p>
-  </div>
-  {% if bts_videos %}
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-      {% for video in bts_videos %}
-      <div class="relative w-full h-56 sm:h-64 bg-black overflow-hidden">
-  <video
-    id="bts-video-{{ video.id }}"
-    src="{{ video.video.url }}"
-    poster="{% if video.cover %}{{ video.cover.url }}{% else %}/static/dummy/photo1.jpeg{% endif %}"
-    class="w-full h-full object-cover rounded-t-3xl cursor-pointer transition duration-300 group-hover:scale-105"
-    preload="metadata"
-    playsinline
-    onclick="expandBTSVideo({{ video.id }})"
-  ></video>
 
-  <div class="absolute inset-0 flex items-center justify-center bg-black/40 rounded-t-3xl z-20 opacity-0 group-hover:opacity-100 transition">
-    <button type="button" onclick="expandBTSVideo({{ video.id }})" class="px-6 py-2 rounded-full bg-white text-black font-semibold shadow-lg text-lg">
-      ▶ Watch
-    </button>
-  </div>
-</div>
-        <div class="flex-1 flex flex-col p-5">
-          <h3 class="text-lg sm:text-xl font-semibold text-white mb-1 truncate">{{ video.title }}</h3>
-          <p class="text-sm text-gray-300 mb-2 line-clamp-2">{{ video.description }}</p>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-  {% else %}
-    <p class="text-center text-gray-500 dark:text-gray-400">No BTS videos found.</p>
-  {% endif %}
-</section>
-<script>
-function expandBTSVideo(id) {
-  const video = document.getElementById('bts-video-' + id);
-  if (!video) return;
-
-  const overlay = document.createElement('div');
-  overlay.style.position = 'fixed';
-  overlay.style.top = 0;
-  overlay.style.left = 0;
-  overlay.style.width = '100vw';
-  overlay.style.height = '100vh';
-  overlay.style.background = 'rgba(0,0,0,0.9)';
-  overlay.style.zIndex = 9999;
-  overlay.style.display = 'flex';
-  overlay.style.alignItems = 'center';
-  overlay.style.justifyContent = 'center';
-
-  const expandedVideo = document.createElement('video');
-  expandedVideo.src = video.src;
-  expandedVideo.poster = video.poster;
-  expandedVideo.controls = true;
-  expandedVideo.autoplay = true;
-  expandedVideo.playsInline = true;
-  expandedVideo.style.width = '90vw';
-  expandedVideo.style.maxWidth = '900px';
-  expandedVideo.style.height = 'auto';
-  expandedVideo.style.borderRadius = '1rem';
-  expandedVideo.style.boxShadow = '0 8px 32px rgba(0,0,0,0.7)';
-
-  overlay.onclick = function(e) {
-    if (e.target === overlay) {
-      expandedVideo.pause();
-      document.body.removeChild(overlay);
-    }
-  };
-
-  overlay.appendChild(expandedVideo);
-  document.body.appendChild(overlay);
-
-  expandedVideo.play().catch(() => {});
-}
-</script>
-{% endblock %}
+<section class="px-2 sm:px-4 md:px-10 py-10 max-w-7xl mx-auto">  
+  <div class="flex flex-col items-center mb-10 animate-fade-in">  
+    <div class="flex items-center gap-3 mb-2">  
+      <span class="inline-block bg-black text-white rounded-full p-3 shadow-lg text-2xl">🎬</span>  
+      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">Watch BTS</h1>  
+    </div>  
+    <p class="text-gray-500 dark:text-gray-400 text-center max-w-xl">Go behind the scenes with our exclusive BTS videos. See the creative process, fun moments, and the real work that goes into every shoot!</p>  
+  </div>  
+  {% if bts_videos %}  
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">  
+      {% for video in bts_videos %}  
+      <div class="relative flex flex-col bg-gradient-to-br from-gray-900 via-black to-gray-800 rounded-3xl shadow-2xl overflow-hidden group transition-transform duration-300 hover:scale-[1.025] animate-on-scroll">  
+        <div class="relative w-full aspect-w-16 aspect-h-9 bg-black">  
+          {% if video.cover %}  
+            <img src="{{ video.cover.url }}" alt="{{ video.title }} cover" class="w-full h-56 sm:h-64 object-cover rounded-t-3xl cursor-pointer transition duration-300 group-hover:scale-105" onclick="expandBTSVideo({{ video.id }})">  
+          {% endif %}  
+          <video id="bts-video-{{ video.id }}" src="{{ video.video.url }}" poster="{% if video.cover %}{{ video.cover.url }}{% else %}/static/dummy/photo1.jpeg{% endif %}" class="w-full h-56 sm:h-64 object-cover rounded-t-3xl cursor-pointer transition duration-300 group-hover:scale-105 absolute top-0 left-0" preload="metadata" style="{% if video.cover %}opacity:0;pointer-events:none;{% endif %}"></video>  
+                    <video id="bts-video-{{ video.id }}" src="{{ video.video.url }}" poster="{% if video.cover %}{{ video.cover.url }}{% else %}/static/dummy/photo1.jpeg{% endif %}" class="w-full h-56 sm:h-64 object-cover rounded-t-3xl cursor-pointer transition duration-300 group-hover:scale-105 absolute top-0 left-0" preload="metadata" style="{% if video.cover %}opacity:0;pointer-events:auto;{% endif %}"></video>  
+          <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition bg-black/60 rounded-t-3xl z-20">  
+            <button onclick="expandBTSVideo({{ video.id }})" class="px-6 py-2 rounded-full bg-white text-black font-semibold shadow-lg text-lg">▶ Watch</button>  
+          </div>  
+        </div>  
+        <div class="flex-1 flex flex-col p-5">  
+          <h3 class="text-lg sm:text-xl font-semibold text-white mb-1 truncate">{{ video.title }}</h3>  
+          <p class="text-sm text-gray-300 mb-2 line-clamp-2">{{ video.description }}</p>  
+        </div>  
+      </div>  
+      {% endfor %}  
+    </div>  
+  {% else %}  
+    <p class="text-center text-gray-500 dark:text-gray-400">No BTS videos found.</p>  
+  {% endif %}  
+</section>  
+<script>  
+function expandBTSVideo(id) {  
+  const video = document.getElementById('bts-video-' + id);  
+  if (!video) return;  
+  // Create overlay  
+  const overlay = document.createElement('div');  
+  overlay.style.position = 'fixed';  
+  overlay.style.top = 0;  
+  overlay.style.left = 0;  
+  overlay.style.width = '100vw';  
+  overlay.style.height = '100vh';  
+  overlay.style.background = 'rgba(0,0,0,0.9)';  
+  overlay.style.zIndex = 9999;  
+  overlay.style.display = 'flex';  
+  overlay.style.alignItems = 'center';  
+  overlay.style.justifyContent = 'center';  
+  overlay.onclick = function(e) {  
+    if (e.target === overlay) {  
+      document.body.removeChild(overlay);  
+      expandedVideo.pause();  
+      expandedVideo.currentTime = 0;  
+    }  
+  };  
+  // Create a new video element (do not clone, to avoid autoplay issues)  
+  const expandedVideo = document.createElement('video');  
+  expandedVideo.src = video.src;  
+  expandedVideo.poster = video.poster;  
+  expandedVideo.controls = true;  
+  expandedVideo.autoplay = true;  
+  expandedVideo.style.width = '90vw';  
+  expandedVideo.style.maxWidth = '900px';  
+  expandedVideo.style.height = 'auto';  
+  expandedVideo.style.borderRadius = '1rem';  
+  expandedVideo.style.boxShadow = '0 8px 32px rgba(0,0,0,0.7)';  
+  overlay.appendChild(expandedVideo);  
+  document.body.appendChild(overlay);  
+  expandedVideo.play();  
+}  
+</script>  
+{% endblock %}  
