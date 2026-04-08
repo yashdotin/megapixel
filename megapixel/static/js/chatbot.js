@@ -139,19 +139,20 @@ function createChatbotButton() {
   const btn = document.createElement('button');
   btn.id = 'openChatbotBtn';
 
+
   btn.className = `
-  fixed bottom-8 right-8 z-50
-  bg-black
-  shadow-xl
-  rounded-full
-  w-16 h-16
-  flex flex-col items-center justify-center
-  hover:scale-110 transition
-  border border-black
+    fixed bottom-8 right-8 z-50
+    shadow-xl
+    rounded-full
+    w-16 h-16
+    flex flex-col items-center justify-center
+    hover:scale-110 transition
+    border border-black
   `;
+  btn.style.background = 'radial-gradient(circle at center, #1C1F24 0%, #12151A 50%, #05080C 100%)';
 
   btn.innerHTML = `
-    <span class="w-10 h-10 flex items-center justify-center rounded-full bg-black border-2 border-black shadow">
+    <span class="w-10 h-10 flex items-center justify-center rounded-full border-2 border-black shadow" style="background:radial-gradient(circle at center, #1C1F24 0%, #12151A 50%, #05080C 100%)">
       <img src="/static/camera.png" class="w-8 h-8">
     </span>
     <span class="text-xs font-semibold text-blue-600">Ask me</span>
