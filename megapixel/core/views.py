@@ -174,25 +174,19 @@ def verify_otp(request):
             {"status": "error", "message": str(e)}
         )
     
-@login_required
 def client_galleries(request):
 
-    galleries = ClientGallery.objects.filter(client=request.user)
-
+    galleries = ClientGallery.objects.filter(is_public=True)
     return render(request, "client_galleries.html", {
         "galleries": galleries
     })
 
-
-@login_required
 def client_gallery_detail(request, pk):
-
     gallery = get_object_or_404(
         ClientGallery,
         pk=pk,
-        client=request.user
+        is_public=True
     )
-
     return render(request,"client_gallery_detail.html",{
         "gallery":gallery
     })
