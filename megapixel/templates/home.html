@@ -73,13 +73,17 @@
 
       {% for img in latest_images %}
         {% if img.image %}
-          <a data-src="{{ img.image.url }}" data-lg-size="1600-1067">
-            <img 
-              src="{{ img.image.url }}"
-              class="w-full rounded-lg object-cover transition duration-500 hover:scale-105"
-              loading="lazy"
-            >
-          </a>
+          <a 
+  href="{{ img.image.url|safe }}"
+  data-src="{{ img.image.url|safe }}"
+  data-lg-size="1600-1067"
+>
+  <img 
+    src="{{ img.image.url|safe }}"
+    class="w-full rounded-lg object-cover transition duration-500 hover:scale-105"
+    loading="lazy"
+  >
+</a>
         {% endif %}
       {% empty %}
         <p>No images uploaded yet.</p>
