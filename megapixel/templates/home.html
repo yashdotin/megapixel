@@ -74,11 +74,13 @@
       {% for img in latest_images %}
         {% if img.image %}
          <a 
-  href="{{ img.image.build_url }}"
+  href="{{ img.image.url|safe|cut:'http:' }}"
+  data-src="{{ img.image.url|safe|cut:'http:' }}"
 >
   <img 
-    src="{{ img.image.build_url }}"
+    src="{{ img.image.url|safe|cut:'http:' }}"
     class="w-full rounded-lg object-cover"
+    loading="lazy"
   >
 </a>
         {% endif %}
