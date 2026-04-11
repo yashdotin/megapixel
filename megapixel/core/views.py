@@ -1,68 +1,101 @@
-from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from django.core.mail import send_mail
-from django.conf import settings
-from .models import Project, EmailOTP, ContactMessage
-from .forms import ContactForm
-import random
 import json
-from django.utils import timezone
+import random
 from datetime import timedelta
-from django.contrib.auth.decorators import login_required
-from .models import ClientGallery, BTSVideo
+
+from django.core.mail import send_mail
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, render
+from django.utils import timezone
+
+from .forms import ContactForm
+from .models import ProjectImage
+from .models import BTSVideo, ClientGallery, ContactMessage, EmailOTP, Project
+
 
 def home(request):
-    return render(request, 'home.html')
+    featured_services = [
+    {
+        "title": "Wedding Photography",
+        "icon": "🥂",
+        "image": "dummy/wedding.jpeg",
+        "description": (
+            "Creative wedding storytelling with candid moments, family emotions, "
+            "and timeless portraits crafted for your memories."
+        ),
+    },
+    {
+        "title": "Pre-Wedding Photography",
+        "icon": "📸",
+        "image": "dummy/pre-wedding.jpeg",
+        "description": (
+            "Lifestyle pre-wedding sessions with natural chemistry, cinematic "
+            "locations, and poses that feel personal and effortless."
+        ),
+    },
+    {
+        "title": "Cinematography",
+        "icon": "🎬",
+        "image": "dummy/cinematic.jpeg",
+        "description": (
+            "Cinematic wedding films with creative camera movement, intentional "
+            "lighting, and emotional edits that feel like your own movie."
+        ),
+    },
+]
+    latest_images = ProjectImage.objects.order_by('-id')[:100]
+
+    return render(request, "home.html", {
+    "featured_services": featured_services,
+    "latest_images": latest_images,
+})
+
 
 def about(request):
-    return render(request, 'about.html')
+    return render(request, "about.html")
+
 
 def projects(request):
+    category = request.GET.get("category")
 
-    category = request.GET.get('category')
-
-    projects = Project.objects.all().order_by('-created_at')
-
+    projects_qs = Project.objects.all().order_by("-created_at")
     public_galleries = ClientGallery.objects.filter(is_public=True)
+    bts_videos = BTSVideo.objects.all().order_by("-created_at")
 
     if category:
-        projects = projects.filter(category=category)
+        projects_qs = projects_qs.filter(category=category)
 
-    from .models import BTSVideo
-    bts_videos = BTSVideo.objects.all().order_by('-created_at')
-    return render(request, 'projects.html', {
-        'projects': projects,
-        'project_categories': Project.CATEGORY_CHOICES,
-        'public_galleries': public_galleries,
-        'bts_videos': bts_videos,
-    })
+    return render(
+        request,
+        "projects.html",
+        {
+            "projects": projects_qs,
+            "project_categories": Project.CATEGORY_CHOICES,
+            "public_galleries": public_galleries,
+            "bts_videos": bts_videos,
+        },
+    )
+
 
 def services(request):
     return render(request, "services.html")
 
+
 def project_detail(request, pk):
     project = get_object_or_404(Project, pk=pk)
-    return render(request, 'project_detail.html', {'project': project})
-
-
+    return render(request, "project_detail.html", {"project": project})
 
 
 def contact(request):
-
     success = False
 
     if request.method == "POST":
-
         form = ContactForm(request.POST)
 
         if form.is_valid():
-
             name = form.cleaned_data["name"]
             email = form.cleaned_data["email"]
             message = form.cleaned_data["message"]
 
-            # Save message to database
             ContactMessage.objects.create(
                 name=name,
                 email=email,
@@ -76,12 +109,11 @@ def contact(request):
                     from_email=email,
                     recipient_list=["megapixelcreationss@gmail.com"],
                 )
-            except Exception as e:
-                print("EMAIL ERROR:", e)
+            except Exception as exc:
+                print("EMAIL ERROR:", exc)
 
             success = True
             form = ContactForm()
-
     else:
         form = ContactForm()
 
@@ -94,28 +126,26 @@ def contact(request):
         },
     )
 
-def send_otp(request):
 
+def send_otp(request):
     if request.method != "POST":
         return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
 
     try:
-
         data = json.loads(request.body)
-
         email = data.get("email")
 
         if not email:
-            return JsonResponse(
-                {"status": "error", "message": "Email required"}
-            )
+            return JsonResponse({"status": "error", "message": "Email required"})
 
-        # OTP spam protection
         recent = EmailOTP.objects.filter(email=email).order_by("-created_at").first()
 
         if recent and (timezone.now() - recent.created_at).seconds < 60:
             return JsonResponse(
-                {"status": "error", "message": "Wait before requesting another OTP"}
+                {
+                    "status": "error",
+                    "message": "Wait before requesting another OTP",
+                }
             )
 
         otp = random.randint(100000, 999999)
@@ -133,24 +163,18 @@ def send_otp(request):
                 [email],
                 fail_silently=False,
             )
-        except Exception as e:
-            print("OTP EMAIL ERROR:", e)
+        except Exception as exc:
+            print("OTP EMAIL ERROR:", exc)
 
         return JsonResponse({"status": "sent"})
 
-    except Exception as e:
+    except Exception as exc:
+        print("OTP ERROR:", exc)
+        return JsonResponse({"status": "error", "message": str(exc)})
 
-        print("OTP ERROR:", e)
-
-        return JsonResponse(
-            {"status": "error", "message": str(e)}
-        )
- 
 
 def verify_otp(request):
-
     try:
-
         data = json.loads(request.body)
 
         email = data.get("email")
@@ -159,48 +183,31 @@ def verify_otp(request):
         record = EmailOTP.objects.filter(email=email, otp=otp).last()
 
         if record and timezone.now() - record.created_at < timedelta(minutes=5):
-
             record.delete()
-
             return JsonResponse({"status": "verified"})
 
         return JsonResponse({"status": "invalid"})
 
-    except Exception as e:
+    except Exception as exc:
+        print("VERIFY OTP ERROR:", exc)
+        return JsonResponse({"status": "error", "message": str(exc)})
 
-        print("VERIFY OTP ERROR:", e)
 
-        return JsonResponse(
-            {"status": "error", "message": str(e)}
-        )
-    
 def client_galleries(request):
-
     galleries = ClientGallery.objects.filter(is_public=True)
-    return render(request, "client_galleries.html", {
-        "galleries": galleries
-    })
+    return render(request, "client_galleries.html", {"galleries": galleries})
+
 
 def client_gallery_detail(request, pk):
-    gallery = get_object_or_404(
-        ClientGallery,
-        pk=pk,
-        is_public=True
-    )
-    return render(request,"client_gallery_detail.html",{
-        "gallery":gallery
-    })
+    gallery = get_object_or_404(ClientGallery, pk=pk, is_public=True)
+    return render(request, "client_gallery_detail.html", {"gallery": gallery})
+
+
 def public_gallery(request, pk):
+    gallery = get_object_or_404(ClientGallery, pk=pk, is_public=True)
+    return render(request, "public_gallery.html", {"gallery": gallery})
 
-    gallery = get_object_or_404(
-        ClientGallery,
-        pk=pk,
-        is_public=True
-    )
 
-    return render(request,"public_gallery.html",{
-        "gallery":gallery
-    })
 def bts_gallery(request):
-    bts_videos = BTSVideo.objects.all().order_by('-created_at')
-    return render(request, 'bts_gallery.html', {'bts_videos': bts_videos})
+    bts_videos = BTSVideo.objects.all().order_by("-created_at")
+    return render(request, "bts_gallery.html", {"bts_videos": bts_videos})

@@ -6,6 +6,8 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" href="/static/camera.png">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/css/lightgallery-bundle.min.css">
+    
     <title>Megapixel Creations</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -80,6 +82,65 @@
 }
 
     </style>
+    <style>
+/* Dark cinematic background */
+.lg-backdrop {
+  background: rgba(0,0,0,0.95) !important;
+}
+
+/* Center image nicely */
+.lg-image {
+  border-radius: 8px;
+}
+
+/* Thumbnail strip styling */
+.lg-thumb-outer {
+  background: #000 !important;
+}
+
+/* Close button styling */
+.lg-close {
+  font-size: 28px !important;
+  color: white !important;
+}
+
+/* Navigation arrows */
+.lg-prev, .lg-next {
+  color: white !important;
+}
+.lg-toolbar {
+  opacity: 1 !important;
+}
+
+.lg-close {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.lg-prev, .lg-next {
+  opacity: 1 !important;
+}
+/* Bottom thumbnail scroll smooth */
+.lg-thumb {
+  overflow-x: auto !important;
+  white-space: nowrap;
+}
+
+.lg-thumb-item {
+  display: inline-block;
+}
+.lg-toolbar {
+  opacity: 1 !important;
+}
+
+.lg-close {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 9999 !important;
+}
+</style>
 </head>
 
 <body class="min-h-screen flex flex-col bg-[#f9f6f2] dark:bg-gradient-to-br dark:from-green-900 dark:via-black dark:to-black text-gray-900 dark:text-gray-100 transition-colors duration-500">
@@ -471,5 +532,9 @@ if (nameEl) {
   setTimeout(revealName, 3000);
 }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/lightgallery.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/plugins/thumbnail/lg-thumbnail.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/plugins/zoom/lg-zoom.min.js"></script>
 </body>
 </html>

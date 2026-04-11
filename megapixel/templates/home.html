@@ -1,142 +1,167 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-
-<!-- Video Section: new.mp4 as animated background, no controls -->
-<!-- <div class="w-full flex justify-center mt-8 mb-8 group">
-  <video 
-    autoplay 
-    loop 
-    playsinline 
-    muted 
-    class="w-full max-w-2xl md:max-w-5xl rounded-xl shadow-lg object-cover transition-transform duration-700 group-hover:scale-105 group-hover:brightness-110"
-    style="background:#000; pointer-events:none;"
-    preload="auto"
-  >
-    <source src="/static/videos/new.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-</div> -->
 
 <!-- HERO SLIDESHOW -->
 <section class="relative h-[90vh] overflow-hidden">
-
-  <!-- Slides -->
   <div id="slides" class="absolute inset-0">
-    <img src="/static/dummy/photo1.jpeg"
-         class="slide absolute inset-0 w-full h-full object-cover opacity-100 transition-opacity duration-1000">
-    <img src="/static/dummy/photo2.jpeg"
-         class="slide absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000">
-    <img src="/static/dummy/photo3.jpeg"
-         class="slide absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000">
-    <img src="/static/dummy/photo4.jpeg"
-         class="slide absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000">
+    <img src="{% static 'dummy/photo1.jpeg' %}" class="slide absolute inset-0 h-full w-full object-cover opacity-100 transition-opacity duration-1000" alt="Hero slide 1">
+    <img src="{% static 'dummy/photo2.jpeg' %}" class="slide absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-1000" alt="Hero slide 2">
+    <img src="{% static 'dummy/photo3.jpeg' %}" class="slide absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-1000" alt="Hero slide 3">
+    <img src="{% static 'dummy/photo4.jpeg' %}" class="slide absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-1000" alt="Hero slide 4">
   </div>
 
-  <!-- Overlay -->
   <div class="absolute inset-0 bg-black/50"></div>
 
-  <!-- Content -->
-  <div class="relative z-10 h-full flex items-center justify-center text-center px-4">
+  <div class="relative z-10 flex h-full items-center justify-center px-4 text-center">
     <div class="animate-fade-in">
-      <h1 class="text-4xl md:text-6xl font-bold mb-4">
+      <h1 class="mb-4 text-4xl font-bold md:text-6xl">
         Capturing Moments,<br class="hidden md:block"> Creating Memories
       </h1>
-      <p class="text-lg text-gray-200 mb-6 max-w-xl mx-auto">
-        Professional photography for weddings, portraits & brands.
+      <p class="mx-auto mb-6 max-w-xl text-lg text-gray-200">
+        Professional photography for weddings, portraits &amp; brands.
       </p>
-      <!-- End Video Section -->
-      <a href="/projects/"
-         class="inline-block px-8 py-3 rounded-full bg-white text-black font-medium hover:scale-105 transition">
+      <a href="/projects/" class="inline-block rounded-full bg-white px-8 py-3 font-medium text-black transition hover:scale-105">
         View Our Work
       </a>
     </div>
   </div>
 </section>
 
-
-<!-- FEATURED WORK -->
-<section class="max-w-7xl mx-auto px-6 py-20">
-
-  <h2 class="text-3xl font-semibold mb-10 text-center">
-    Featured Work
-  </h2>
-
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-
-    {% for i in "1234" %}
-    <div class="group relative overflow-hidden rounded-2xl shadow-lg">
-      <img src="/static/dummy/photo{{ i }}.jpeg"
-           class="w-full h-80 object-cover transform group-hover:scale-110 transition duration-700">
-
-      <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-end p-6">
-        <p class="text-lg font-medium">Creative Shoot</p>
-      </div>
+<!-- FEATURED SERVICES -->
+<section class="bg-[#efefef] py-16 dark:bg-[#101010] md:py-20">
+  <div class="mx-auto max-w-7xl px-5 md:px-8">
+    <div class="mb-10 md:mb-14">
+      <p class="mb-3 text-sm uppercase tracking-[0.24em] text-gray-700 dark:text-gray-300">What We Do</p>
+      <div class="h-[3px] w-32 rounded bg-lime-600"></div>
     </div>
-    {% endfor %}
+
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-10 xl:grid-cols-3">
+      {% for service in featured_services %}
+      <article class="space-y-5">
+        <h3 class="flex items-center gap-2.5 text-2xl font-medium text-gray-900 dark:text-white">
+          <span aria-hidden="true">{{ service.icon }}</span>
+          <span>{{ service.title }}</span>
+        </h3>
+
+        <img src="{% static service.image %}" alt="{{ service.title }}" class="h-64 w-full object-cover shadow-md sm:h-72" loading="lazy">
+
+        <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+          {{ service.description }}
+        </p>
+      </article>
+      {% empty %}
+      <p class="text-gray-700 dark:text-gray-300">No featured services added yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+<!-- OUR LATEST WORK -->
+<section class="bg-white py-16 dark:bg-[#0f0f0f]">
+  <div class="mx-auto max-w-7xl px-5 md:px-8">
+    
+    <div class="mb-10">
+      <p class="mb-3 text-sm uppercase tracking-[0.24em] text-gray-700 dark:text-gray-300">
+        Our Latest Works
+      </p>
+      <div class="h-[3px] w-32 rounded bg-lime-600"></div>
+    </div>
+
+    <div id="lightgallery" class="columns-2 md:columns-3 lg:columns-5 gap-2 space-y-2">
+
+      {% for img in latest_images %}
+        {% if img.image %}
+          <a href="{{ img.image.url }}" data-lg-size="1600-1067">
+            <img 
+              src="{{ img.image.url }}"
+              class="w-full rounded-lg object-cover transition duration-500 hover:scale-105"
+              loading="lazy"
+            >
+          </a>
+        {% endif %}
+      {% empty %}
+        <p>No images uploaded yet.</p>
+      {% endfor %}
+
+    </div>
 
   </div>
-
 </section>
 
 <!-- WHY US -->
-<section class="bg-gray-50 dark:bg-[#141414] py-20">
-  <div class="max-w-5xl mx-auto px-6 grid md:grid-cols-3 gap-10 text-center">
-
+<section class="bg-gray-50 py-20 dark:bg-[#141414]">
+  <div class="mx-auto grid max-w-5xl gap-10 px-6 text-center md:grid-cols-3">
     <div class="animate-fade-in">
-      <p class="text-4xl mb-3">📸</p>
-      <h3 class="font-semibold mb-2">Artistic Vision</h3>
-      <p class="text-sm text-gray-500 dark:text-gray-400">
-        Every frame is thoughtfully composed.
-      </p>
+      <p class="mb-3 text-4xl">📸</p>
+      <h3 class="mb-2 font-semibold">Artistic Vision</h3>
+      <p class="text-sm text-gray-500 dark:text-gray-400">Every frame is thoughtfully composed.</p>
     </div>
 
     <div class="animate-fade-in">
-      <p class="text-4xl mb-3">⚡</p>
-      <h3 class="font-semibold mb-2">Fast Delivery</h3>
-      <p class="text-sm text-gray-500 dark:text-gray-400">
-        Quick turnaround without compromising quality.
-      </p>
+      <p class="mb-3 text-4xl">⚡</p>
+      <h3 class="mb-2 font-semibold">Fast Delivery</h3>
+      <p class="text-sm text-gray-500 dark:text-gray-400">Quick turnaround without compromising quality.</p>
     </div>
 
     <div class="animate-fade-in">
-      <p class="text-4xl mb-3">❤️</p>
-      <h3 class="font-semibold mb-2">Trusted by Clients</h3>
-      <p class="text-sm text-gray-500 dark:text-gray-400">
-        Long-term relationships, real stories.
-      </p>
+      <p class="mb-3 text-4xl">❤️</p>
+      <h3 class="mb-2 font-semibold">Trusted by Clients</h3>
+      <p class="text-sm text-gray-500 dark:text-gray-400">Long-term relationships, real stories.</p>
     </div>
-
   </div>
 </section>
 
 <!-- CTA -->
 <section class="py-20 text-center">
-  <h2 class="text-3xl font-semibold mb-4">
-    Let’s Create Something Beautiful
-  </h2>
-  <p class="text-gray-500 dark:text-gray-400 mb-6">
-    Have a project in mind? Let’s talk.
-  </p>
-  <a href="/contact/"
-     class="inline-block px-10 py-3 rounded-full bg-black text-white hover:scale-105 transition">
-    Contact Us
-  </a>
+  <h2 class="mb-4 text-3xl font-semibold">Let’s Create Something Beautiful</h2>
+  <p class="mb-6 text-gray-500 dark:text-gray-400">Have a project in mind? Let’s talk.</p>
+  <a href="/contact/" class="inline-block rounded-full bg-black px-10 py-3 text-white transition hover:scale-105">Contact Us</a>
 </section>
 
-<!-- SLIDESHOW SCRIPT -->
 <script>
   const slides = document.querySelectorAll('.slide');
   let index = 0;
 
-  setInterval(() => {
-    slides[index].classList.remove('opacity-100');
-    slides[index].classList.add('opacity-0');
+  if (slides.length > 0) {
+    setInterval(() => {
+      slides[index].classList.remove('opacity-100');
+      slides[index].classList.add('opacity-0');
 
-    index = (index + 1) % slides.length;
+      index = (index + 1) % slides.length;
 
-    slides[index].classList.remove('opacity-0');
-    slides[index].classList.add('opacity-100');
-  }, 4000);
+      slides[index].classList.remove('opacity-0');
+      slides[index].classList.add('opacity-100');
+    }, 4000);
+  }
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  lightGallery(document.getElementById('lightgallery'), {
+    plugins: [lgThumbnail, lgZoom],
+
+    speed: 500,
+    selector: 'a',
+
+    thumbnail: true,
+    animateThumb: true,
+    showThumbByDefault: true,
+
+    zoom: true,
+    download: false,
+
+    closable: true,
+    showCloseIcon: true,
+
+    controls: true,
+    loop: true,
+
+    hideBarsDelay: 2000,
+  });
+
+});
 </script>
 
 {% endblock %}
