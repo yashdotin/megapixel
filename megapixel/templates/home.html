@@ -75,13 +75,16 @@
         {% if img.image %}
          <a 
   href="{{ img.image.url|safe|cut:'http:' }}"
-  data-src="{{ img.image.url|safe|cut:'http:' }}"
+  
+  class="gallery-item"
 >
-  <img 
-    src="{{ img.image.url|safe|cut:'http:' }}"
-    class="w-full rounded-lg object-cover"
-    loading="lazy"
-  >
+  <div class="gallery-inner blur-load skeleton">
+    <img 
+      src="{{ img.image.url|safe|cut:'http:' }}"
+      loading="lazy"
+      class="w-full h-full object-cover"
+    >
+  </div>
 </a>
         {% endif %}
       {% empty %}
@@ -145,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
   lightGallery(document.getElementById('lightgallery'), {
     plugins: [lgThumbnail, lgZoom],
 
-    speed: 500,
+    speed: 600,
     selector: 'a',
 
     thumbnail: true,
@@ -162,6 +165,64 @@ document.addEventListener("DOMContentLoaded", function () {
     loop: true,
 
     hideBarsDelay: 2000,
+
+    // 🔥 cinematic autoplay
+    autoplay: true,
+    pause: 4000,
+
+    // smooth transitions
+    mode: 'lg-fade',
+  });
+
+});
+</script>
+<script>
+document.addEventListener("lgAfterSlide", function (event) {
+  const currentImg = document.querySelector('.lg-current img');
+  const backdrop = document.querySelector('.lg-backdrop');
+
+  if (currentImg && backdrop) {
+    backdrop.style.backgroundImage = `url(${currentImg.src})`;
+    backdrop.style.backgroundSize = "cover";
+    backdrop.style.backgroundPosition = "center";
+    backdrop.style.filter = "blur(25px)";
+  }
+});
+</script>
+<script>
+document.querySelectorAll('.blur-load img').forEach(img => {
+  if (img.complete) {
+    img.parentElement.classList.add('loaded');
+  } else {
+    img.addEventListener('load', () => {
+      img.parentElement.classList.add('loaded');
+    });
+  }
+});
+</script>
+<script>
+document.querySelectorAll('.gallery-item').forEach(item => {
+
+  item.addEventListener('mousemove', (e) => {
+    const inner = item.querySelector('.gallery-inner');
+
+    const rect = item.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const rotateY = ((x / rect.width) - 0.5) * 10;
+    const rotateX = ((y / rect.height) - 0.5) * -10;
+
+    inner.style.transform = `
+      rotateX(${rotateX}deg)
+      rotateY(${rotateY}deg)
+      scale(1.05)
+    `;
+  });
+
+  item.addEventListener('mouseleave', () => {
+    const inner = item.querySelector('.gallery-inner');
+    inner.style.transform = "rotateX(0) rotateY(0) scale(1)";
   });
 
 });

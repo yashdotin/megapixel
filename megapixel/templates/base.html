@@ -140,6 +140,138 @@
   opacity: 1 !important;
   z-index: 9999 !important;
 }
+/* Cinematic backdrop blur */
+.lg-backdrop {
+  background: rgba(0,0,0,0.95) !important;
+  backdrop-filter: blur(20px);
+}
+
+/* Image styling */
+.lg-image {
+  border-radius: 12px;
+  transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
+/* Smooth zoom animation */
+.lg-current .lg-image {
+  transform: scale(1.05);
+}
+
+/* Fade effect */
+.lg-item {
+  transition: opacity 0.5s ease-in-out !important;
+}
+
+/* Thumbnail strip premium */
+.lg-thumb-outer {
+  background: rgba(0,0,0,0.9) !important;
+  padding: 10px 0;
+}
+
+/* Thumbnail hover */
+.lg-thumb-item:hover {
+  transform: scale(1.1);
+  transition: 0.3s;
+}
+
+/* Close button cinematic */
+.lg-close {
+  font-size: 30px !important;
+  color: white !important;
+}
+
+/* Arrows styling */
+.lg-prev, .lg-next {
+  color: white !important;
+  font-size: 30px !important;
+}
+/* Skeleton shimmer */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: #ddd;
+  border-radius: 12px;
+}
+
+.skeleton::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 150%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,0.4),
+    transparent
+  );
+  animation: shimmer 1.2s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    left: 150%;
+  }
+}
+
+/* Blur to sharp transition */
+.blur-load img {
+  filter: blur(20px);
+  transition: filter 0.6s ease, transform 0.6s ease;
+  transform: scale(1.05);
+}
+
+.blur-load.loaded img {
+  filter: blur(0);
+  transform: scale(1);
+}
+/* Container for 3D effect */
+.gallery-item {
+  perspective: 1000px;
+}
+
+/* Inner card */
+.gallery-inner {
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  transform-style: preserve-3d;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+/* Hover zoom */
+.gallery-inner:hover {
+  transform: scale(1.05) rotateX(3deg) rotateY(-3deg);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+/* Image smooth */
+.gallery-inner img {
+  transition: transform 0.6s ease;
+}
+
+/* Slight zoom inside */
+.gallery-inner:hover img {
+  transform: scale(1.1);
+}
+
+/* Glow overlay */
+.gallery-inner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0.15),
+    transparent
+  );
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.gallery-inner:hover::after {
+  opacity: 1;
+}
 </style>
 </head>
 
