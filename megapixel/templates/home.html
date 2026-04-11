@@ -73,9 +73,9 @@
 
       {% for img in latest_images %}
         {% if img.image %}
-          <a href="{{ img.image.url }}" data-lg-size="1600-1067">
+          <a href="{{ img.image.url|add:'.jpg' }}" data-lg-size="1600-1067">
             <img 
-              src="{{ img.image.url }}"
+              src="{{ img.image.url }}.jpg"
               class="w-full rounded-lg object-cover transition duration-500 hover:scale-105"
               loading="lazy"
             >
