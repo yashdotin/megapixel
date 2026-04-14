@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<section class="relative overflow-hidden bg-[#f7f4ef] py-20 dark:bg-[#0f0f0f]">
+  <div class="mx-auto max-w-7xl px-5 md:px-8">
+    <div class="mb-14 text-center">
+      <p class="mb-3 text-sm uppercase tracking-[0.3em] text-gray-600 dark:text-gray-300">
+        Prama's Gallery
+      </p>
+      <h1 class="text-4xl font-bold text-gray-900 dark:text-white md:text-6xl">
+        Explore Our Categories
+      </h1>
+      <p class="mx-auto mt-4 max-w-2xl text-lg text-gray-600 dark:text-gray-300">
+        Choose a category and explore the full visual story behind it.
+      </p>
+    </div>
+
+    <div class="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+      {% for cat in categories %}
+      <a href="{% url 'pramas_gallery_category' cat.slug %}" class="group block">
+        
+        <article class="overflow-hidden rounded-3xl bg-white shadow-lg transition duration-300 hover:-translate-y-2 hover:shadow-2xl dark:bg-[#141414]">
+
+          <!-- IMAGE -->
+          <div class="relative h-72 overflow-hidden">
+
+            {% if cat.cover_image %}
+              <img src="{% static cat.cover_image %}" 
+                   alt="{{ cat.title }}"
+                   class="h-full w-full object-cover transition duration-500 group-hover:scale-110">
+            {% else %}
+              <img src="{% static 'dummy/photo1.jpeg' %}" 
+                   alt="{{ cat.title }}"
+                   class="h-full w-full object-cover">
+            {% endif %}
+
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+
+            <div class="absolute bottom-4 left-4 right-4">
+              <div class="flex items-center gap-2 text-white">
+                <span class="text-2xl">{{ cat.icon }}</span>
+                <h2 class="text-2xl font-semibold">{{ cat.title }}</h2>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- TEXT -->
+          <div class="space-y-3 p-6">
+            <p class="text-gray-600 dark:text-gray-300">
+              {{ cat.description }}
+            </p>
+
+            <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+              <span>{{ cat.image_count }} image{{ cat.image_count|pluralize }}</span>
+            </div>
+          </div>
+
+        </article>
+
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% endblock %}

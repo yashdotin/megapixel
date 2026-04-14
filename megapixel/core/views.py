@@ -3,51 +3,142 @@ import random
 from datetime import timedelta
 
 from django.core.mail import send_mail
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.shortcuts import get_object_or_404, render
 from django.utils import timezone
+from .models import CategoryImage
+from .models import CategoryImage
 
 from .forms import ContactForm
-from .models import ProjectImage
-from .models import BTSVideo, ClientGallery, ContactMessage, EmailOTP, Project
+from .models import (
+    BTSVideo,
+    ClientGallery,
+    ClientGalleryImage,
+    ContactMessage,
+    EmailOTP,
+    Project,
+    ProjectImage,
+)
+
+# Main gallery categories shown in Prama's Gallery
+PRAMA_CATEGORIES = {
+    "wedding": {
+        "title": "Wedding",
+        "icon": "🥂",
+        "description": "All wedding moments, rituals, emotions, and memories.",
+    },
+    "prewedding": {
+        "title": "Pre-Wedding",
+        "icon": "📸",
+        "description": "Romantic sessions, stylish frames, and natural chemistry.",
+    },
+    "cinematography": {
+        "title": "Cinematography",
+        "icon": "🎬",
+        "description": "Cinematic films with motion, emotion, and beautiful edits.",
+    },
+    "babyshoot": {
+        "title": "Baby Shoot",
+        "icon": "🍼",
+        "description": "Cute, playful, and lovely baby photography moments.",
+    },
+    "advertisement": {
+        "title": "Advertisement",
+        "icon": "📢",
+        "description": "Creative commercial and brand visuals.",
+    },
+    "corporate": {
+        "title": "Corporate Shoot",
+        "icon": "🏢",
+        "description": "Professional portraits and business content.",
+    },
+}
+
+PRAMA_CATEGORY_ORDER = [
+    "wedding",
+    "prewedding",
+    "cinematography",
+    "babyshoot",
+    "advertisement",
+    "corporate",
+]
 
 
 def home(request):
     featured_services = [
-    {
-        "title": "Wedding Photography",
-        "icon": "🥂",
-        "image": "dummy/wedding.jpeg",
-        "description": (
-            "Creative wedding storytelling with candid moments, family emotions, "
-            "and timeless portraits crafted for your memories."
-        ),
-    },
-    {
-        "title": "Pre-Wedding Photography",
-        "icon": "📸",
-        "image": "dummy/pre-wedding.jpeg",
-        "description": (
-            "Lifestyle pre-wedding sessions with natural chemistry, cinematic "
-            "locations, and poses that feel personal and effortless."
-        ),
-    },
-    {
-        "title": "Cinematography",
-        "icon": "🎬",
-        "image": "dummy/cinematic.jpeg",
-        "description": (
-            "Cinematic wedding films with creative camera movement, intentional "
-            "lighting, and emotional edits that feel like your own movie."
-        ),
-    },
-]
-    latest_images = ProjectImage.objects.order_by('-id')[:100]
+        {
+            "title": "Wedding Photography",
+            "slug": "wedding",
+            "icon": "🥂",
+            "image": "dummy/wedding.jpeg",
+            "description": (
+                "Creative wedding storytelling with candid moments, family emotions, "
+                "and timeless portraits crafted for your memories."
+            ),
+        },
+        {
+            "title": "Pre-Wedding Photography",
+            "slug": "prewedding",
+            "icon": "📸",
+            "image": "dummy/pre-wedding.jpeg",
+            "description": (
+                "Lifestyle pre-wedding sessions with natural chemistry, cinematic "
+                "locations, and poses that feel personal and effortless."
+            ),
+        },
+        {
+            "title": "Cinematography",
+            "slug": "cinematography",
+            "icon": "🎬",
+            "image": "dummy/cinematic.jpeg",
+            "description": (
+                "Cinematic wedding films with creative camera movement, intentional "
+                "lighting, and emotional edits that feel like your own movie."
+            ),
+        },
+        {
+            "title": "Baby Shoot",
+            "slug": "babyshoot",
+            "icon": "🍼",
+            "image": "dummy/baby.jpeg",
+            "description": (
+                "Adorable baby photography sessions capturing playful moments, "
+                "cute expressions, and the pure joy of your little one."
+            ),
+        },
+        {
+            "title": "Advertisement",
+            "slug": "advertisement",
+            "icon": "📢",
+            "image": "dummy/advertisement.jpeg",
+            "description": (
+                "Creative commercial photography and brand visuals that tell your "
+                "story and connect with your audience."
+            ),
+        },
+        {
+            "title": "Corporate Shoot",
+            "slug": "corporate",
+            "icon": "🏢",
+            "image": "dummy/corporate.jpeg",
+            "description": (
+                "Professional corporate photography for portraits, events, and "
+                "business content that elevates your brand."
+            ),
+        },
+        
+    ]
 
-    return render(request, "home.html", {
-    "featured_services": featured_services,
-    "latest_images": latest_images,
-})
+    latest_images = ProjectImage.objects.order_by("-id")[:100]
+
+    return render(
+        request,
+        "home.html",
+        {
+            "featured_services": featured_services,
+            "latest_images": latest_images,
+        },
+    )
 
 
 def about(request):
@@ -193,6 +284,70 @@ def verify_otp(request):
         return JsonResponse({"status": "error", "message": str(exc)})
 
 
+# -------------------------
+# NEW PRAMA'S GALLERY FLOW
+# -------------------------
+
+# ✅ STATIC COVER IMAGES FOR EACH CATEGORY
+PRAMA_CATEGORY_COVERS = {
+    "wedding": "dummy/wedding.jpeg",
+    "prewedding": "dummy/pre-wedding.jpeg",
+    "cinematography": "dummy/cinematic.jpeg",
+    "babyshoot": "dummy/baby.jpeg",
+    "advertisement": "dummy/advertisement.jpeg",
+    "corporate": "dummy/corporate.jpeg",
+}
+
+
+def pramas_gallery(request):
+    categories = []
+
+    for slug in PRAMA_CATEGORY_ORDER:
+        meta = PRAMA_CATEGORIES[slug]
+
+        images_qs = CategoryImage.objects.filter(category=slug)
+
+        categories.append({
+            "slug": slug,
+            "title": meta["title"],
+            "icon": meta["icon"],
+            "description": meta["description"],
+            "cover_image": PRAMA_CATEGORY_COVERS.get(slug),  
+            "image_count": images_qs.count(),
+        })
+
+    return render(request, "pramas_gallery.html", {
+        "categories": categories,
+    })
+
+
+
+def pramas_gallery_category(request, slug):
+    meta = PRAMA_CATEGORIES.get(slug)
+
+    if not meta:
+        raise Http404("Category not found")
+
+    images = CategoryImage.objects.filter(category=slug).order_by("-id")
+
+    return render(
+        request,
+        "pramas_gallery_detail.html",
+        {
+            "category": {
+                "slug": slug,
+                "title": meta["title"],
+                "icon": meta["icon"],
+                "description": meta["description"],
+            },
+            "images": images,
+        },
+    )
+
+
+# -------------------------
+# EXISTING CLIENT GALLERY FLOW
+# -------------------------
 def client_galleries(request):
     galleries = ClientGallery.objects.filter(is_public=True)
     return render(request, "client_galleries.html", {"galleries": galleries})

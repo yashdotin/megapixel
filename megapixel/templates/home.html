@@ -29,6 +29,7 @@
 </section>
 
 <!-- FEATURED SERVICES -->
+<!-- FEATURED SERVICES -->
 <section class="bg-[#efefef] py-16 dark:bg-[#101010] md:py-20">
   <div class="mx-auto max-w-7xl px-5 md:px-8">
     <div class="mb-10 md:mb-14">
@@ -38,18 +39,22 @@
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-10 xl:grid-cols-3">
       {% for service in featured_services %}
-      <article class="space-y-5">
-        <h3 class="flex items-center gap-2.5 text-2xl font-medium text-gray-900 dark:text-white">
-          <span aria-hidden="true">{{ service.icon }}</span>
-          <span>{{ service.title }}</span>
-        </h3>
+      <a href="{% url 'pramas_gallery_category' service.slug %}" class="group block">
+        <article class="space-y-5 rounded-3xl p-3 transition duration-300 hover:-translate-y-1 hover:bg-white/40 hover:shadow-2xl dark:hover:bg-white/5">
+          <h3 class="flex items-center gap-2.5 text-2xl font-medium text-gray-900 dark:text-white">
+            <span aria-hidden="true">{{ service.icon }}</span>
+            <span>{{ service.title }}</span>
+          </h3>
 
-        <img src="{% static service.image %}" alt="{{ service.title }}" class="h-64 w-full object-cover shadow-md sm:h-72" loading="lazy">
+          <img src="{% static service.image %}" alt="{{ service.title }}"
+               class="h-64 w-full rounded-2xl object-cover shadow-md transition duration-300 group-hover:scale-[1.02] sm:h-72"
+               loading="lazy">
 
-        <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
-          {{ service.description }}
-        </p>
-      </article>
+          <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+            {{ service.description }}
+          </p>
+        </article>
+      </a>
       {% empty %}
       <p class="text-gray-700 dark:text-gray-300">No featured services added yet.</p>
       {% endfor %}
@@ -61,7 +66,6 @@
 <!-- OUR LATEST WORK -->
 <section class="bg-white py-16 dark:bg-[#0f0f0f]">
   <div class="mx-auto max-w-7xl px-5 md:px-8">
-    
     <div class="mb-10">
       <p class="mb-3 text-sm uppercase tracking-[0.24em] text-gray-700 dark:text-gray-300">
         Our Latest Works
@@ -69,53 +73,226 @@
       <div class="h-[3px] w-32 rounded bg-lime-600"></div>
     </div>
 
-    <div id="lightgallery" class="columns-2 md:columns-3 lg:columns-5 gap-2 space-y-2">
-
+    <div id="lightgallery" class="columns-2 gap-3 space-y-3 md:columns-3 lg:columns-5">
       {% for img in latest_images %}
         {% if img.image %}
-         <a 
-  href="{{ img.image.url|safe|cut:'http:' }}"
-  
-  class="gallery-item"
->
-  <div class="gallery-inner blur-load skeleton">
-    <img 
-      src="{{ img.image.url|safe|cut:'http:' }}"
-      loading="lazy"
-      class="w-full h-full object-cover"
-    >
-  </div>
-</a>
+          <a
+            href="{{ img.image.url|safe|cut:'http:' }}"
+            class="gallery-item block break-inside-avoid"
+          >
+            <div class="gallery-inner blur-load skeleton">
+              <img
+                src="{{ img.image.url|safe|cut:'http:' }}"
+                loading="lazy"
+                alt="Latest work"
+                class="block w-full h-auto border border-black"
+              >
+            </div>
+          </a>
         {% endif %}
       {% empty %}
         <p>No images uploaded yet.</p>
       {% endfor %}
-
     </div>
-
   </div>
 </section>
 
 <!-- WHY US -->
-<section class="bg-gray-50 py-20 dark:bg-[#141414]">
-  <div class="mx-auto grid max-w-5xl gap-10 px-6 text-center md:grid-cols-3">
-    <div class="animate-fade-in">
-      <p class="mb-3 text-4xl">📸</p>
-      <h3 class="mb-2 font-semibold">Artistic Vision</h3>
-      <p class="text-sm text-gray-500 dark:text-gray-400">Every frame is thoughtfully composed.</p>
+<section class="max-w-6xl mx-auto px-4 py-20">
+  <div class="mb-10">
+    <p class="mb-3 text-sm uppercase tracking-[0.3em] text-gray-600 dark:text-gray-300">
+      Why Us
+    </p>
+    <div class="h-[3px] w-32 rounded bg-lime-600"></div>
+  </div>
+
+  <div class="grid gap-12 lg:grid-cols-2 items-center">
+
+    <!-- IMAGE (Clickable to Raghu Rai) -->
+    <div class="relative group">
+      <a href="https://en.wikipedia.org/wiki/Raghu_Rai" target="_blank">
+        <div class="overflow-hidden rounded-[2rem] border border-black/10 shadow-2xl">
+          <img
+            src="{% static 'dummy/prama-mentor.jpg' %}"
+            alt="Prama with photography mentor"
+            class="w-full h-[420px] md:h-[520px] object-cover transition duration-700 group-hover:scale-105"
+          >
+        </div>
+      </a>
+
+      <!-- Overlay label -->
+      <div class="absolute bottom-4 left-4 bg-black/70 text-white text-xs px-4 py-2 rounded-full backdrop-blur">
+        Inspired by legendary storytelling
+      </div>
     </div>
 
-    <div class="animate-fade-in">
-      <p class="mb-3 text-4xl">⚡</p>
-      <h3 class="mb-2 font-semibold">Fast Delivery</h3>
-      <p class="text-sm text-gray-500 dark:text-gray-400">Quick turnaround without compromising quality.</p>
+    <!-- TEXT -->
+    <div class="space-y-8">
+
+      <div>
+        <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white leading-tight">
+          Why Choose <span class="text-lime-600">Megapixel Creations?</span>
+        </h2>
+
+        <p class="mt-4 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+          Megapixel Creations is not just about photography — it is about vision, patience, and storytelling.
+          Inspired by the work and discipline of master photographers like Raghu Rai, we believe every frame should carry meaning, emotion, and truth.
+        </p>
+      </div>
+
+      <!-- STORY BLOCK -->
+      <div class="border-l-2 border-lime-600 pl-6 space-y-6">
+
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+            A foundation built on real learning
+          </h3>
+          <p class="text-sm mt-1 text-gray-600 dark:text-gray-300 leading-relaxed">
+            Learning through real workshops and practical exposure shapes a sharper eye for composition,
+            timing, and storytelling — something that cannot be achieved through shortcuts.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+            We capture moments, not poses
+          </h3>
+          <p class="text-sm mt-1 text-gray-600 dark:text-gray-300 leading-relaxed">
+            Anyone can click a photo. We focus on capturing emotions, expressions, and natural interactions
+            that make your memories feel alive even years later.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+            Cinematic + documentary approach
+          </h3>
+          <p class="text-sm mt-1 text-gray-600 dark:text-gray-300 leading-relaxed">
+            Our style blends cinematic visuals with documentary storytelling — giving you both beauty
+            and authenticity in every frame.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+            Crafted with intention
+          </h3>
+          <p class="text-sm mt-1 text-gray-600 dark:text-gray-300 leading-relaxed">
+            From planning shots to final editing, everything is done with care, precision, and a focus on
+            delivering a premium experience — not just photos.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- TAGS -->
+      <div class="flex flex-wrap gap-3 pt-2">
+        <span class="px-4 py-2 rounded-full bg-black text-white text-sm">📸 Storytelling</span>
+        <span class="px-4 py-2 rounded-full border border-gray-300 text-sm dark:border-gray-700">🎬 Cinematic</span>
+        <span class="px-4 py-2 rounded-full border border-gray-300 text-sm dark:border-gray-700">💍 Weddings</span>
+        <span class="px-4 py-2 rounded-full border border-gray-300 text-sm dark:border-gray-700">⚡ Premium Delivery</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- questions -->
+ <section class="bg-[#f9f9f9] py-20 dark:bg-[#0f0f0f]">
+  <div class="mx-auto max-w-5xl px-5 md:px-8">
+
+    <!-- Heading -->
+    <div class="mb-12 text-center">
+      <p class="mb-3 text-sm uppercase tracking-[0.3em] text-gray-600 dark:text-gray-300">
+        Client Guide
+      </p>
+      <h2 class="text-4xl font-bold text-gray-900 dark:text-white">
+        Everything You Should Know Before Your Shoot
+      </h2>
+      <p class="mt-4 text-gray-600 dark:text-gray-300">
+        Clear answers to help you plan better, feel confident, and get the best results.
+      </p>
     </div>
 
-    <div class="animate-fade-in">
-      <p class="mb-3 text-4xl">❤️</p>
-      <h3 class="mb-2 font-semibold">Trusted by Clients</h3>
-      <p class="text-sm text-gray-500 dark:text-gray-400">Long-term relationships, real stories.</p>
+    <!-- FAQ -->
+    <div class="space-y-4">
+
+      <!-- Item -->
+      <div class="faq-item border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
+        <button class="faq-question w-full text-left px-6 py-4 flex justify-between items-center">
+          <span class="font-semibold text-gray-900 dark:text-white">
+            What is your storytelling and video style?
+          </span>
+          <span class="text-xl">+</span>
+        </button>
+        <div class="faq-answer px-6 pb-5 text-gray-600 dark:text-gray-300 hidden">
+          We blend cinematic storytelling with natural documentary moments. Your film will feel like a movie — but still real, emotional, and true to your day.
+        </div>
+      </div>
+
+      <div class="faq-item border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
+        <button class="faq-question w-full text-left px-6 py-4 flex justify-between items-center">
+          <span class="font-semibold text-gray-900 dark:text-white">
+            How experienced is your team?
+          </span>
+          <span class="text-xl">+</span>
+        </button>
+        <div class="faq-answer px-6 pb-5 text-gray-600 dark:text-gray-300 hidden">
+          With years of experience in weddings and events, we understand timing, emotions, and moments — ensuring nothing important is missed.
+        </div>
+      </div>
+
+      <div class="faq-item border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
+        <button class="faq-question w-full text-left px-6 py-4 flex justify-between items-center">
+          <span class="font-semibold text-gray-900 dark:text-white">
+            What equipment do you use?
+          </span>
+          <span class="text-xl">+</span>
+        </button>
+        <div class="faq-answer px-6 pb-5 text-gray-600 dark:text-gray-300 hidden">
+          We use professional cameras, lenses, stabilizers, and lighting setups to ensure crisp visuals, smooth motion, and perfect lighting in every condition.
+        </div>
+      </div>
+
+      <div class="faq-item border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
+        <button class="faq-question w-full text-left px-6 py-4 flex justify-between items-center">
+          <span class="font-semibold text-gray-900 dark:text-white">
+            Do you provide sample work before booking?
+          </span>
+          <span class="text-xl">+</span>
+        </button>
+        <div class="faq-answer px-6 pb-5 text-gray-600 dark:text-gray-300 hidden">
+          Yes, we share curated samples so you can clearly understand our style and decide confidently.
+        </div>
+      </div>
+
+      <div class="faq-item border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
+        <button class="faq-question w-full text-left px-6 py-4 flex justify-between items-center">
+          <span class="font-semibold text-gray-900 dark:text-white">
+            What are your pricing and packages like?
+          </span>
+          <span class="text-xl">+</span>
+        </button>
+        <div class="faq-answer px-6 pb-5 text-gray-600 dark:text-gray-300 hidden">
+          We offer flexible packages based on your needs. Everything is transparent — no hidden surprises.
+        </div>
+      </div>
+
+      <div class="faq-item border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
+        <button class="faq-question w-full text-left px-6 py-4 flex justify-between items-center">
+          <span class="font-semibold text-gray-900 dark:text-white">
+            When will we receive our final photos & videos?
+          </span>
+          <span class="text-xl">+</span>
+        </button>
+        <div class="faq-answer px-6 pb-5 text-gray-600 dark:text-gray-300 hidden">
+          Delivery depends on the project scale, but we always maintain a fast and reliable turnaround without compromising quality.
+        </div>
+      </div>
+
     </div>
+
   </div>
 </section>
 
@@ -228,4 +405,17 @@ document.querySelectorAll('.gallery-item').forEach(item => {
 });
 </script>
 
+<script>
+document.querySelectorAll('.faq-question').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    const answer = item.querySelector('.faq-answer');
+    const icon = btn.querySelector('span:last-child');
+
+    answer.classList.toggle('hidden');
+
+    icon.textContent = answer.classList.contains('hidden') ? '+' : '–';
+  });
+});
+</script>
 {% endblock %}

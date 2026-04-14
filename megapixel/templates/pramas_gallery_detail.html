@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<section class="relative overflow-hidden bg-black text-white">
+  <div class="absolute inset-0">
+    {% if category.slug == "wedding" %}
+  <img src="{% static 'dummy/wedding.jpeg' %}" class="h-full w-full object-cover opacity-30" alt="Wedding">
+
+{% elif category.slug == "prewedding" %}
+  <img src="{% static 'dummy/pre-wedding.jpeg' %}" class="h-full w-full object-cover opacity-30" alt="Pre Wedding">
+
+{% elif category.slug == "cinematography" %}
+  <img src="{% static 'dummy/cinematography.jpeg' %}" class="h-full w-full object-cover opacity-30" alt="Cinematography">
+
+{% elif category.slug == "babyshoot" %}
+  <img src="{% static 'dummy/baby.jpeg' %}" class="h-full w-full object-cover opacity-30" alt="Baby Shoot">
+
+{% elif category.slug == "advertisement" %}
+  <img src="{% static 'dummy/advertisement.jpeg' %}" class="h-full w-full object-cover opacity-30" alt="Advertisement">
+
+{% elif category.slug == "corporate" %}
+  <img src="{% static 'dummy/corporate.jpeg' %}" class="h-full w-full object-cover opacity-30" alt="Corporate">
+
+{% else %}
+  <img src="{% static 'dummy/photo1.jpeg' %}" class="h-full w-full object-cover opacity-30" alt="Default">
+{% endif %}
+  </div>
+
+  <div class="relative mx-auto max-w-7xl px-6 py-24 text-center">
+    <p class="mb-3 text-sm uppercase tracking-[0.3em] text-gray-300">Prama's Gallery</p>
+    <h1 class="text-4xl font-bold md:text-6xl">{{ category.icon }} {{ category.title }}</h1>
+    <p class="mx-auto mt-5 max-w-2xl text-lg text-gray-200">
+      {{ category.description }}
+    </p>
+  </div>
+</section>
+
+<section class="bg-[#f7f7f7] py-16 dark:bg-[#111]">
+  <div class="mx-auto max-w-7xl px-5 md:px-8">
+
+    <div class="mb-10 flex items-end justify-between gap-4">
+      <div>
+        <p class="mb-3 text-sm uppercase tracking-[0.24em] text-gray-700 dark:text-gray-300">
+          {{ category.title }} Works
+        </p>
+        <div class="h-[3px] w-32 rounded bg-lime-600"></div>
+      </div>
+
+      <a href="{% url 'pramas_gallery' %}"
+         class="rounded-full border border-gray-300 px-4 py-2 text-sm text-gray-700 transition hover:bg-black hover:text-white dark:border-gray-700 dark:text-gray-300">
+        Back to categories
+      </a>
+    </div>
+
+    <!-- LightGallery grid -->
+   <div id="category-gallery" class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+  {% for image in images %}
+    {% if image.image %}
+    <a href="{{ image.image.url }}"
+       class="group overflow-hidden rounded-2xl bg-white shadow-md transition hover:-translate-y-1 hover:shadow-2xl">
+      <img src="{{ image.image.url }}"
+           alt="{{ category.title }}"
+           class="h-72 w-full object-cover transition duration-500 group-hover:scale-110"
+           loading="lazy">
+    </a>
+    {% endif %}
+  {% empty %}
+    <div class="col-span-full rounded-2xl bg-white p-10 text-center text-gray-500 shadow-md dark:bg-[#1a1a1a] dark:text-gray-300">
+      No images uploaded yet for this category.
+    </div>
+  {% endfor %}
+</div>
+
+  </div>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const el = document.getElementById("category-gallery");
+
+  if (el && window.lightGallery) {
+    lightGallery(el, {
+      selector: "a",
+      plugins: [lgThumbnail, lgZoom],
+      speed: 600,
+      thumbnail: true,
+      animateThumb: true,
+      showThumbByDefault: true,
+      zoom: true,
+      download: false,
+      closable: true,
+      showCloseIcon: true,
+      controls: true,
+      loop: true,
+      mode: "lg-fade",
+      hideBarsDelay: 2000,
+      mousewheel: true
+    });
+  }
+});
+</script>
+
+{% endblock %}

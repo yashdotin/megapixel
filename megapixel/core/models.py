@@ -7,12 +7,16 @@ class Project(models.Model):
     CATEGORY_CHOICES = [
         ('wedding', 'Wedding'),
         ('prewedding', 'Pre-Wedding'),
+        ('cinematography', 'Cinematography'),
         ('babyshoot', 'Baby Shoot'),
         ('advertisement', 'Advertisement'),
+        ('corporate', 'Corporate Shoots'),
+
+        # keeping your existing old categories so nothing breaks
         ('podcast', 'Podcast'),
         ('documentary', 'Documentary'),
-        ('corporate', 'Corporate Shoots'),
     ]
+
     category = models.CharField(
         max_length=20,
         choices=CATEGORY_CHOICES,
@@ -26,6 +30,9 @@ class Project(models.Model):
     description = models.TextField(blank=True)
     cover = CloudinaryField("cover", resource_type="auto", blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
 
 # Model for BTS mp4 videos
 class BTSVideo(models.Model):
@@ -108,3 +115,21 @@ class ClientGalleryImage(models.Model):
 
     def __str__(self):
         return f"{self.gallery.title} image"
+    
+class CategoryImage(models.Model):
+    CATEGORY_CHOICES = [
+        ('wedding', 'Wedding'),
+        ('prewedding', 'Pre-Wedding'),
+        ('cinematography', 'Cinematography'),
+        ('babyshoot', 'Baby Shoot'),
+        ('advertisement', 'Advertisement'),
+        ('corporate', 'Corporate Shoot'),
+    ]
+
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
+    image = CloudinaryField("image")
+
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.category} image"

@@ -4,12 +4,12 @@
 <div class="module">
     <h1>Bulk Upload Images</h1>
     <p><strong>Project:</strong> {{ project.title }}</p>
+    <p><strong>Category:</strong> {{ project.get_category_display }}</p>
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div style="margin: 20px 0;">
-            {{ form.images.label_tag }}
-            {{ form.images }}
+            <input type="file" name="images" multiple required>
         </div>
         <input type="submit" value="Upload Images" class="default">
     </form>
