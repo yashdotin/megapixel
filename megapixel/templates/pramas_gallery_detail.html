@@ -58,9 +58,9 @@
    <div id="category-gallery" class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
   {% for image in images %}
     {% if image.image %}
-    <a href="{{ image.image.url }}"
+    <a href="{{ img.image.url|safe|cut:'http:' }}"
        class="group overflow-hidden rounded-2xl bg-white shadow-md transition hover:-translate-y-1 hover:shadow-2xl">
-      <img src="{{ image.image.url }}"
+      <img src="{{ img.image.url|safe|cut:'http:' }}"
            alt="{{ category.title }}"
            class="h-72 w-full object-cover transition duration-500 group-hover:scale-110"
            loading="lazy">
