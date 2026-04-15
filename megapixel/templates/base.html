@@ -323,64 +323,46 @@
 </div>
 
 <nav class="fixed top-0 w-full z-50 bg-white/90 dark:bg-gradient-to-br dark:from-green-900 dark:via-black dark:to-black/90 backdrop-blur border-b border-gray-100 dark:border-green-900">
-  <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+  <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
+  <!-- Left -->
+  <a href="/" class="flex items-center gap-2 min-w-0">
+    <img src="/static/camera.png" class="w-8 h-8 rounded-full shrink-0">
+    <span class="font-semibold text-[14px] sm:text-[15px] leading-tight whitespace-nowrap">
+  Megapixel Creations
+</span>
+  </a>
 
-    <!-- Left -->
-    <a href="/" class="flex items-center gap-3">
-      <img src="/static/camera.png" class="w-9 h-9 rounded-full">
-      <span class="font-semibold text-[17px]">Megapixel Creations</span>
-    </a>
+  <!-- Right -->
+  <div class="ml-auto flex items-center gap-2">
+    <div class="inline-flex items-center rounded-full border border-green-700 bg-white/90 dark:bg-black/60 px-1 py-0.5 text-[11px] shadow-sm backdrop-blur shrink-0">
+      <button
+        type="button"
+        data-theme-btn="light"
+        onclick="setTheme('light')"
+        class="px-2.5 py-0.5 rounded-full font-semibold transition"
+      >
+        Light
+      </button>
 
-    <!-- Center (desktop only) -->
-    <div class="hidden md:flex items-center gap-8 text-sm text-gray-600 dark:text-gray-400">
-      <!-- <a href="/about/" class="hover:text-black dark:hover:text-white">About</a>
-      <a href="/projects/" class="hover:text-black dark:hover:text-white">Projects</a>
-      <a href="/contact/" class="hover:text-black dark:hover:text-white">Contact</a>
-      <a class="nav-link" href="{% url 'services' %}">Services</a>
-      <a href="/my-galleries/"
-class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800">
-My Galleries
-</a> -->
+      <button
+        type="button"
+        data-theme-btn="dark"
+        onclick="setTheme('dark')"
+        class="px-2.5 py-0.5 rounded-full font-semibold transition"
+      >
+        Dark
+      </button>
+
+      <button
+        type="button"
+        data-theme-btn="auto"
+        onclick="setTheme('auto')"
+        class="px-2.5 py-0.5 rounded-full font-semibold transition"
+      >
+        Auto
+      </button>
     </div>
-
-    <!-- Right -->
-    <div class="flex items-center gap-12">
-
-      <!-- Mobile menu button -->
-      <!-- <button id="mobileMenuBtn"
-              class="md:hidden w-9 h-9 rounded-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center">
-        ☰
-      </button> -->
-
-     <!-- Theme toggle -->
-<!-- Theme toggle -->
-<div class="inline-flex items-center rounded-full border border-green-700 bg-white/90 dark:bg-black/60 px-1 py-0.5 text-xs shadow-sm backdrop-blur">
-  <button
-    type="button"
-    data-theme-btn="light"
-    onclick="setTheme('light')"
-    class="px-3 py-0.5 rounded-full font-semibold transition"
-  >
-    Light
-  </button>
-
-  <button
-    type="button"
-    data-theme-btn="dark"
-    onclick="setTheme('dark')"
-    class="px-3 py-0.5 rounded-full font-semibold transition"
-  >
-    Dark
-  </button>
-
-  <button
-    type="button"
-    data-theme-btn="auto"
-    onclick="setTheme('auto')"
-    class="px-3 py-0.5 rounded-full font-semibold transition"
-  >
-    Auto
-  </button>
+  </div>
 </div>
 
       <!-- Profile Menu -->
