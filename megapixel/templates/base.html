@@ -16,31 +16,55 @@
     {% block head %}{% endblock %}
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = { darkMode: 'class' }
-        if (localStorage.theme === 'dark') {
-            document.documentElement.classList.add('dark')
-        }
-        // Custom dark theme for greenish-black
-        function setGreenDarkTheme() {
-          document.documentElement.classList.add('dark');
-          document.body.classList.add('greenish-dark');
-        }
-        function setLightTheme() {
-          document.documentElement.classList.remove('dark');
-          document.body.classList.remove('greenish-dark');
-        }
-        window.toggleTheme = function() {
-          if (document.documentElement.classList.contains('dark')) {
-            setLightTheme();
-            localStorage.theme = 'light';
-          } else {
-            setGreenDarkTheme();
-            localStorage.theme = 'dark';
-          }
-        }
-    </script>
+   <script>
+  tailwind.config = { darkMode: 'class' };
 
+  function getSystemTheme() {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+
+  function applyTheme(theme) {
+    const resolvedTheme = theme === 'auto' ? getSystemTheme() : theme;
+
+    if (resolvedTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+      document.body.classList.add('greenish-dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.body.classList.remove('greenish-dark');
+    }
+
+    // update selected button styles
+    document.querySelectorAll('[data-theme-btn]').forEach(btn => {
+      const active = btn.getAttribute('data-theme-btn') === theme;
+      if (active) {
+        btn.classList.add('bg-green-800', 'text-white');
+        btn.classList.remove('text-gray-700', 'dark:text-gray-200');
+      } else {
+        btn.classList.remove('bg-green-800', 'text-white');
+        btn.classList.add('text-gray-700', 'dark:text-gray-200');
+      }
+    });
+  }
+
+  function setTheme(theme) {
+    localStorage.setItem('theme', theme);
+    applyTheme(theme);
+  }
+
+  window.setTheme = setTheme;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme') || 'auto';
+    applyTheme(savedTheme);
+  });
+
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    if ((localStorage.getItem('theme') || 'auto') === 'auto') {
+      applyTheme('auto');
+    }
+  });
+</script>
     <style>
       @keyframes fade-in {
         from { opacity:0; transform: translateY(10px); }
@@ -272,6 +296,10 @@
 .gallery-inner:hover::after {
   opacity: 1;
 }
+  [data-theme-btn] {
+    min-width: 42px;
+    line-height: 1;
+  }
 </style>
 </head>
 
@@ -324,11 +352,36 @@ My Galleries
         ☰
       </button> -->
 
-      <!-- Theme toggle -->
-      <button onclick="toggleTheme()"
-              class="w-9 h-9 rounded-lg border border-gray-200 dark:border-gray-700">
-        🌙
-      </button>
+     <!-- Theme toggle -->
+<!-- Theme toggle -->
+<div class="inline-flex items-center rounded-full border border-green-700 bg-white/90 dark:bg-black/60 px-1 py-0.5 text-xs shadow-sm backdrop-blur">
+  <button
+    type="button"
+    data-theme-btn="light"
+    onclick="setTheme('light')"
+    class="px-3 py-0.5 rounded-full font-semibold transition"
+  >
+    Light
+  </button>
+
+  <button
+    type="button"
+    data-theme-btn="dark"
+    onclick="setTheme('dark')"
+    class="px-3 py-0.5 rounded-full font-semibold transition"
+  >
+    Dark
+  </button>
+
+  <button
+    type="button"
+    data-theme-btn="auto"
+    onclick="setTheme('auto')"
+    class="px-3 py-0.5 rounded-full font-semibold transition"
+  >
+    Auto
+  </button>
+</div>
 
       <!-- Profile Menu -->
       <div class="relative">
