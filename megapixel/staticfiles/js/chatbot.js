@@ -49,7 +49,7 @@ function createChatbot() {
   // Header with camera.png and bot name
   bot.innerHTML = `
     <div class="flex items-center gap-3 px-4 py-3 border-b border-blue-100 bg-blue-50 rounded-t-2xl">
-      <img src="/static/camera.png" class="w-8 h-8 rounded-full border border-blue-400 bg-white shadow" alt="Chatbot">
+      <img src="/static/bot.png" class="w-8 h-8 rounded-full border border-blue-400 bg-white shadow" alt="Chatbot">
       <span class="font-semibold text-base text-blue-800">MegaPixel Assistant</span>
       <button id="closeChatbot" class="ml-auto text-blue-400 hover:text-red-500 text-xl">✕</button>
     </div>
@@ -127,7 +127,7 @@ function addChatbotMessage(q, a) {
   const msgWrap = document.getElementById('chatbotMessages');
   msgWrap.innerHTML += `
     <div class="mb-4">
-      <div class="font-semibold text-blue-700 flex items-center gap-2"><img src="/static/camera.png" class="w-5 h-5 rounded-full border border-blue-200"> You asked: <span class="font-normal">${q}</span></div>
+      <div class="font-semibold text-blue-700 flex items-center gap-2"><img src="/static/bot.png" class="w-5 h-5 rounded-full border border-blue-200"> You asked: <span class="font-normal">${q}</span></div>
       <div class="ml-7 mt-2 p-3 bg-blue-50 border border-blue-100 rounded-xl text-blue-900">${a}</div>
     </div>
   `;
@@ -139,22 +139,23 @@ function createChatbotButton() {
   const btn = document.createElement('button');
   btn.id = 'openChatbotBtn';
 
+
   btn.className = `
-  fixed bottom-8 right-8 z-50
-  bg-black
-  shadow-xl
-  rounded-full
-  w-16 h-16
-  flex flex-col items-center justify-center
-  hover:scale-110 transition
-  border border-black
+    fixed bottom-8 right-8 z-50
+    shadow-xl
+    rounded-full
+    w-16 h-16
+    flex flex-col items-center justify-center
+    hover:scale-110 transition
+    border border-black
   `;
+  btn.style.background = 'radial-gradient(circle at center, #1C1F24 0%, #12151A 50%, #05080C 100%)';
 
   btn.innerHTML = `
-    <span class="w-10 h-10 flex items-center justify-center rounded-full bg-black border-2 border-black shadow">
-      <img src="/static/camera.png" class="w-8 h-8">
+    <span class="w-10 h-10 flex items-center justify-center rounded-full border-2 border-black shadow" style="background:radial-gradient(circle at center, #1C1F24 0%, #12151A 50%, #05080C 100%)">
+      <img src="/static/bot.png" class="w-8 h-8">
     </span>
-    <span class="text-xs font-semibold text-blue-600">Ask me</span>
+    
   `;
 
   document.body.appendChild(btn);
