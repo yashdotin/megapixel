@@ -12,3 +12,5 @@ setuptools
 cloudinary
 django-cloudinary-storage
 django-otp
+numpy
+scikit-learn

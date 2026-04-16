@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/health.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="health-shell py-8 px-4 md:px-8">
+  <div class="max-w-6xl mx-auto space-y-6">
+    <div class="health-hero rounded-3xl p-6 md:p-10 text-white">
+      <p class="uppercase tracking-widest text-xs opacity-90">Megapixel Health Intelligence</p>
+      <h1 class="text-3xl md:text-5xl font-bold">Gamified AI Health Platform</h1>
+      <p class="mt-3 text-sm md:text-base opacity-90">Onboarding ➜ Risk Engine ➜ Explainability ➜ Timeline ➜ XP Loop. Built for mobile + web.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="panel">
+        <h2 class="text-xl font-semibold mb-3">1) Quiz Onboarding 🎮</h2>
+        <form id="onboarding-form" class="space-y-3">
+          <div class="grid grid-cols-2 gap-3">
+            <input class="input" type="number" name="age" placeholder="Age" required>
+            <input class="input" type="text" name="gender" placeholder="Gender" required>
+            <input class="input" type="number" step="0.1" name="height_cm" placeholder="Height cm" required>
+            <input class="input" type="number" step="0.1" name="weight_kg" placeholder="Weight kg" required>
+            <select class="input" name="activity_level"><option value="low">Low Activity</option><option value="medium">Medium</option><option value="high">High</option></select>
+            <input class="input" type="number" name="sleep_hours" step="0.1" placeholder="Sleep hours" required>
+            <select class="input" name="junk_food_frequency"><option value="low">Low Junk</option><option value="medium">Medium Junk</option><option value="high">High Junk</option></select>
+            <input class="input" type="number" name="stress_level" min="1" max="10" placeholder="Stress (1-10)">
+          </div>
+          <button class="btn-primary w-full" type="submit">Create Initial Health Profile</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h2 class="text-xl font-semibold mb-3">2) Daily Data Engine ⚙️</h2>
+        <form id="daily-log-form" class="space-y-3">
+          <input class="input" type="date" name="log_date">
+          <div class="grid grid-cols-2 gap-3">
+            <input class="input" type="number" step="0.1" name="sleep_hours" placeholder="Sleep hours">
+            <input class="input" type="number" step="0.1" name="water_liters" placeholder="Water liters">
+            <input class="input" type="number" name="stress_level" min="1" max="10" placeholder="Stress (1-10)">
+            <input class="input" type="number" name="steps" placeholder="Steps">
+          </div>
+          <input class="input" type="text" name="feeling" placeholder="Chat input: I feel tired">
+          <button class="btn-primary w-full" type="submit">Log + Gain XP</button>
+        </form>
+        <p id="xp-box" class="mt-3 text-sm font-semibold"></p>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-4 gap-4" id="metric-cards"></div>
+
+    <div class="grid lg:grid-cols-2 gap-6">
+      <div class="panel">
+        <h3 class="font-semibold text-lg">Future Health Timeline 🔮</h3>
+        <div id="timeline"></div>
+      </div>
+      <div class="panel">
+        <h3 class="font-semibold text-lg">Explainable Risk (“Why?”) 🧠</h3>
+        <div id="explainability"></div>
+      </div>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-6">
+      <div class="panel">
+        <h3 class="font-semibold text-lg">AI Health Assistant 🤖</h3>
+        <form id="assistant-form" class="flex gap-2 mt-3">
+          <input class="input flex-1" name="message" placeholder="How to reduce my risk?">
+          <button class="btn-primary" type="submit">Ask</button>
+        </form>
+        <p id="assistant-reply" class="mt-3 text-sm"></p>
+      </div>
+      <div class="panel">
+        <h3 class="font-semibold text-lg">Silent Risk + Adaptive Goals 🚨</h3>
+        <ul id="alerts" class="list-disc list-inside text-sm mt-2"></ul>
+      </div>
+    </div>
+  </div>
+</section>
+<script src="{% static 'js/health.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,7 @@
+.health-shell { background: linear-gradient(180deg, #f5f7ff, #ffffff); min-height: calc(100vh - 64px); }
+.health-hero { background: radial-gradient(circle at top right, #8b5cf6, #1d4ed8); }
+.panel { background:#fff; border-radius:1rem; padding:1rem; box-shadow: 0 10px 20px rgba(15,23,42,.08); }
+.input { width:100%; border:1px solid #cbd5e1; border-radius:.75rem; padding:.6rem .75rem; font-size:.9rem; }
+.btn-primary { background: #4f46e5; color:#fff; border:none; padding:.65rem .9rem; border-radius:.75rem; font-weight:600; }
+.metric-card { background: #111827; color: #fff; border-radius: 1rem; padding: 1rem; }
+@media (max-width: 768px) { .panel { padding: .9rem; } }
