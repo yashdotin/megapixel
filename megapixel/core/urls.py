@@ -24,4 +24,5 @@ urlpatterns = [
     path("my-galleries/<slug:slug>/", views.pramas_gallery_category, name="pramas_gallery_category"),
 
     path("bts/", bts_gallery, name="bts_gallery"),
+    path("reels/", views.reels_gallery, name="reels_gallery"),
 ]

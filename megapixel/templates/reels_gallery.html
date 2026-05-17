@@ -1,0 +1,343 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="reels-page">
+  <div class="reels-topbar">
+    <div>
+      <h1>Watch Reels</h1>
+      <p>Scroll or swipe to browse highlights</p>
+    </div>
+  </div>
+
+  <div class="reels-feed">
+    {% for reel in reels %}
+    <article class="reel-card" data-reel-card>
+      <div class="reel-stage">
+        <video
+          class="reel-video"
+          src="{% static reel.video_path %}"
+          
+          playsinline
+          loop
+          preload="metadata"
+        ></video>
+
+        <div class="reel-gradient"></div>
+
+        <button type="button" class="reel-playbtn" aria-label="Play or pause">
+          ▶
+        </button>
+
+        <div class="reel-caption">
+          <h2>{{ reel.title }}</h2>
+          {% if reel.description %}
+            <p>{{ reel.description }}</p>
+          {% endif %}
+        </div>
+
+        <div class="reel-actions">
+          <button type="button" class="action-btn share-btn" data-share-btn aria-label="Share reel">
+            ↗
+          </button>
+        </div>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+
+<style>
+  .reels-page{
+    min-height:100vh;
+    background:#000;
+    color:#fff;
+  }
+
+  .reels-topbar{
+    position:sticky;
+    top:0;
+    z-index:50;
+    padding:14px 18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:linear-gradient(to bottom, rgba(0,0,0,.78), rgba(0,0,0,.18));
+    backdrop-filter:blur(10px);
+  }
+
+  .reels-topbar h1{
+    margin:0;
+    font-size:22px;
+    font-weight:700;
+    line-height:1.1;
+  }
+
+  .reels-topbar p{
+    margin:4px 0 0;
+    font-size:13px;
+    opacity:.75;
+  }
+
+  .reels-feed{
+    height:calc(100vh - 62px);
+    overflow-y:auto;
+    scroll-snap-type:y mandatory;
+    scroll-behavior:smooth;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  .reel-card{
+    height:calc(100vh - 62px);
+    scroll-snap-align:start;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:14px;
+    box-sizing:border-box;
+  }
+
+  .reel-stage{
+    position:relative;
+    width:min(100%, 430px);
+    height:100%;
+    max-height:100%;
+    aspect-ratio:9/16;
+    border-radius:24px;
+    overflow:hidden;
+    background:#000;
+    box-shadow:0 18px 60px rgba(0,0,0,.45);
+  }
+
+  .reel-video{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    background:#000;
+  }
+
+  .reel-gradient{
+    position:absolute;
+    inset:0;
+    background:
+      linear-gradient(to top, rgba(0,0,0,.62), rgba(0,0,0,.08) 40%, rgba(0,0,0,.12)),
+      linear-gradient(to right, rgba(0,0,0,.24), rgba(0,0,0,0));
+    pointer-events:none;
+  }
+
+  .reel-caption{
+    position:absolute;
+    left:16px;
+    right:78px;
+    bottom:18px;
+    z-index:3;
+    text-shadow:0 2px 10px rgba(0,0,0,.75);
+  }
+
+  .reel-caption h2{
+    margin:0 0 6px;
+    font-size:18px;
+    font-weight:700;
+  }
+
+  .reel-caption p{
+    margin:0;
+    font-size:13px;
+    line-height:1.45;
+    opacity:.92;
+  }
+
+  .reel-playbtn{
+    position:absolute;
+    inset:0;
+    margin:auto;
+    width:74px;
+    height:74px;
+    border:none;
+    border-radius:999px;
+    background:rgba(255,255,255,.18);
+    color:#fff;
+    font-size:22px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    backdrop-filter:blur(10px);
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
+    z-index:4;
+    opacity:0;
+    transform:scale(.92);
+    transition:opacity .2s ease, transform .2s ease;
+    cursor:pointer;
+  }
+
+  .reel-stage.is-paused .reel-playbtn{
+    opacity:1;
+    transform:scale(1);
+  }
+
+  .reel-actions{
+    position:absolute;
+    right:14px;
+    bottom:94px;
+    z-index:4;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+
+  .action-btn{
+    width:46px;
+    height:46px;
+    border:none;
+    border-radius:999px;
+    background:rgba(255,255,255,.15);
+    color:#fff;
+    font-size:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    backdrop-filter:blur(10px);
+    box-shadow:0 10px 24px rgba(0,0,0,.28);
+    cursor:pointer;
+  }
+
+  .action-btn:active,
+  .reel-playbtn:active{
+    transform:scale(.96);
+  }
+
+  /* Mobile full-screen feel */
+  @media (max-width: 768px){
+    .reels-topbar{
+      padding:12px 14px;
+    }
+
+    .reels-topbar h1{
+      font-size:20px;
+    }
+
+    .reels-feed{
+      height:calc(100dvh - 58px);
+    }
+
+    .reel-card{
+      height:calc(100dvh - 58px);
+      padding:0;
+    }
+
+    .reel-stage{
+      width:100%;
+      height:100%;
+      max-height:none;
+      aspect-ratio:auto;
+      border-radius:0;
+      box-shadow:none;
+    }
+
+    .reel-caption{
+      left:14px;
+      right:70px;
+      bottom:16px;
+    }
+
+    .reel-actions{
+      right:12px;
+      bottom:90px;
+    }
+  }
+</style>
+<script>
+  const reelCards = document.querySelectorAll('[data-reel-card]');
+  const allVideos = document.querySelectorAll('.reel-video');
+
+  let activeVideo = null;
+
+  function setPlayIcon(card, playing) {
+    const stage = card.querySelector('.reel-stage');
+    const btn = card.querySelector('.reel-playbtn');
+
+    if (playing) {
+      stage.classList.remove('is-paused');
+      btn.textContent = '❚❚';
+    } else {
+      stage.classList.add('is-paused');
+      btn.textContent = '▶';
+    }
+  }
+
+  function pauseOthers(current) {
+    allVideos.forEach(video => {
+      if (video !== current) {
+        video.pause();
+        video.muted = true;
+
+        const otherCard = video.closest('[data-reel-card]');
+        if (otherCard) setPlayIcon(otherCard, false);
+      }
+    });
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const video = entry.target;
+      const card = video.closest('[data-reel-card]');
+
+      if (entry.isIntersecting && entry.intersectionRatio > 0.7) {
+
+        pauseOthers(video);
+
+        activeVideo = video;
+
+        video.play()
+          .then(() => setPlayIcon(card, true))
+          .catch(() => setPlayIcon(card, false));
+
+      } else {
+        video.pause();
+        setPlayIcon(card, false);
+      }
+    });
+  }, {
+    threshold: [0.7]
+  });
+
+  allVideos.forEach(video => observer.observe(video));
+
+  reelCards.forEach(card => {
+
+    const video = card.querySelector('.reel-video');
+    const playBtn = card.querySelector('.reel-playbtn');
+
+    function toggleVideo() {
+
+      if (video.paused) {
+
+        pauseOthers(video);
+
+        video.muted = false;
+
+        video.play();
+
+        setPlayIcon(card, true);
+
+      } else {
+
+        video.pause();
+
+        setPlayIcon(card, false);
+      }
+    }
+
+    card.addEventListener('click', () => {
+      toggleVideo();
+    });
+
+    playBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleVideo();
+    });
+
+  });
+</script>
+{% endblock %}

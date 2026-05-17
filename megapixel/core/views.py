@@ -366,3 +366,23 @@ def public_gallery(request, pk):
 def bts_gallery(request):
     bts_videos = BTSVideo.objects.all().order_by("-created_at")
     return render(request, "bts_gallery.html", {"bts_videos": bts_videos})
+
+def reels_gallery(request):
+    reels = [
+        {
+            "title": "Reel 1",
+            "description": "Wedding highlights",
+            "video_path": "reels/reel1.mp4",
+        },
+        {
+            "title": "Reel 2",
+            "description": "Pre-wedding vibe",
+            "video_path": "reels/reel2.mp4",
+        },
+        {
+            "title": "Reel 3",
+            "description": "Cinematic moments",
+            "video_path": "reels/reel3.mp4",
+        },
+    ]
+    return render(request, "reels_gallery.html", {"reels": reels})
